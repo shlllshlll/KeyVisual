@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 # @Author: SHLLL
-# @Emial:  shlll7347@gmail.com
+# @Email:  shlll7347@gmail.com
 # @Date:   2018-03-20 22:45:19
-# @Last Modified by:   Mr.Shi
-# @Last Modified time: 2018-03-26 17:12:46
+# @Last Modified by:   SHLLL
+# @Last Modified time: 2018-03-28 13:31:16
 # @License: MIT LICENSE
 
 from downloader import Downloader

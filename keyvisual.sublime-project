@@ -5,7 +5,7 @@
 			"file_regex": "^[ ]*File \"(...*?)\", line ([0-9]*)",
 			"name": "Anaconda Python Builder",
 			"selector": "source.python",
-			"shell_cmd": "\"E:/SHLLL/keyvisual/.venv/Scripts/python.exe\" -u \"$file\""
+			"shell_cmd": "\"/home/shlll/project/keyvisual/.venv/bin/python\" -u \"$file\""
 		}
 	],
 	"folders":
@@ -20,6 +20,6 @@
 	],
 	"settings":
 	{
-		"python_interpreter": "E:/SHLLL/keyvisual/.venv/Scripts/python.exe"
+		"python_interpreter": "~/project/keyvisual/.venv/bin/python"
 	}
 }

@@ -3,7 +3,7 @@
 # @Email: shlll7347@gmail.com
 # @Date:   2018-03-22 21:21:05
 # @Last Modified by:   SHLLL
-# @Last Modified time: 2018-03-28 00:35:15
+# @Last Modified time: 2018-04-03 21:29:29
 # @License: MIT LICENSE
 
 import re
@@ -50,7 +50,7 @@ class Parser(object):
                 root,
                 "//div[@id='main_content']/p/text() |"
                 " //div[@id='yc_con_txt']/p[not(@class)]//text()")
-            if title and date and news:
+            if title and date and news.replace("\n", ""):
                 news_item = self._get_news_item(
                     url, str(title[0]), str(date[0]), news)
 
@@ -66,12 +66,13 @@ class Parser(object):
         """Return the news paragraph."""
         para = ""
         for news in root.xpath(xpath):
-            para += str(news) + "\n"
+            para += str(news).replace('\xa0', '') + "\n"
+
         return para
 
     def _get_page_links(self, root):
         """Get links from html content."""
-        # TODO(SHLLL): To optimize the urls filter flow.
+        # TODO(SHLLL): 优化url的过滤流程即不只保留新闻url
         urls = filter(
             lambda x: self.para_url_pat.match(x),
             root.xpath("//*[@href]/@href"))
@@ -84,7 +85,7 @@ if __name__ == "__main__":
 
     para_url_reg = r"http://news.ifeng.com/a/\d{8}/\d{8}_\d.shtml"
     parser = Parser(para_url_reg)
-    url = "http://news.ifeng.com/a/20180324/57025940_0.shtml"
+    url = "http://news.ifeng.com/a/20180312/56656261_0.shtml"
     response = requests.get(url)
     response.encoding = "utf-8"
     parser.parse_html(url, response.text)

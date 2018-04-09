@@ -1,4 +1,6 @@
+/.idea
 /.venv
+/.ipynb_checkpoints
 *.sublime-workspace
 *.sublime-project
 *.csv

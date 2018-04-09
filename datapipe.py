@@ -3,7 +3,7 @@
 # @Email: shlll7347@gmail.com
 # @Date:   2018-03-24 17:33:18
 # @Last Modified by:   SHLLL
-# @Last Modified time: 2018-03-28 00:35:15
+# @Last Modified time: 2018-03-28 19:19:31
 # @License: MIT LICENSE
 
 import csv
@@ -31,33 +31,11 @@ class CsvWriter(object):
         """
         self.filename = filename
         self.header = header
-        self.file_obj = None
-
-    def __del__(self):
-        if self.file_obj is not None:
-            self.file_obj.close()
-
-    def __enter__(self):
-        """Enter the runtime context related to this object.
-
-        In this function, we create a file object and then create a csv writer
-        object.And last return the file object.
-
-        Returns:
-            object -- The file object.
-
-        Raises:
-            RuntimeError -- Raise if the file already opened.
-        """
-        if self.file_obj is not None:
-            raise RuntimeError("File object already opened.")
         self.file_obj = open(self.filename, "w", errors="ignore")
         self.writer = csv.DictWriter(self.file_obj, fieldnames=self.header)
         self.writer.writeheader()
-        return self
 
-    def __exit__(self, exc_type, exc_value, traceback):
-        """Close file object when exit runtime context."""
+    def __del__(self):
         self.file_obj.close()
 
     def write_line(self, data):
@@ -80,22 +58,10 @@ class CsvReader(object):
     def __init__(self, filename):
         """Initialize the CsvReader class"""
         self.filename = filename
-        self.file_obj = None
-
-    def __del__(self):
-        if self.file_obj is not None:
-            self.file_obj.close()
-
-    def __enter__(self):
-        """Enter the runtime context related to this object."""
-        if self.file_obj is not None:
-            raise RuntimeError("File object already opened.")
         self.file_obj = open(self.filename, "r", errors="ignore")
         self.reader = csv.DictReader(self.file_obj)
-        return self
 
-    def __exit__(self, exc_type, exc_value, traceback):
-        """Close file object when exit runtime context."""
+    def __del__(self):
         self.file_obj.close()
 
     def read_lines(self):

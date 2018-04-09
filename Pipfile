@@ -11,10 +11,15 @@ cchardet = "*"
 lxml = "*"
 selenium = "*"
 pynput = "*"
+pandas = "*"
+scipy = "*"
 
 [dev-packages]
 ipython = "*"
 ipdb = "*"
+jupyter = "*"
+jupyterlab = "*"
+pip-review = "*"
 
 [requires]
 python_version = "3.6"

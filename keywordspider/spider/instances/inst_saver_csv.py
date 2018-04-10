@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 # @Author: SHLLL
 # @Email: shlll7347@gmail.com
-# @Date:   2018-03-24 17:33:18
+# @Date:   2018-04-10 15:01:37
 # @Last Modified by:   SHLLL
-# @Last Modified time: 2018-03-28 19:19:31
+# @Last Modified time: 2018-04-10 15:10:11
 # @License: MIT LICENSE
 
 import csv
@@ -38,7 +38,7 @@ class CsvWriter(object):
     def __del__(self):
         self.file_obj.close()
 
-    def write_line(self, data):
+    def working(self, data):
         """Write a data line to csv file."""
         self.writer.writerow(data)
 
@@ -64,7 +64,7 @@ class CsvReader(object):
     def __del__(self):
         self.file_obj.close()
 
-    def read_lines(self):
+    def working(self):
         """Read data lines from the csv file.
 
         Yields:

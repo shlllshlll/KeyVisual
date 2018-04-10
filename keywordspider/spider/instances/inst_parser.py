@@ -3,7 +3,7 @@
 # @Email: shlll7347@gmail.com
 # @Date:   2018-03-22 21:21:05
 # @Last Modified by:   SHLLL
-# @Last Modified time: 2018-04-03 21:29:29
+# @Last Modified time: 2018-04-09 21:56:02
 # @License: MIT LICENSE
 
 import re
@@ -13,7 +13,7 @@ from lxml import etree
 class Parser(object):
     """The html content parser."""
 
-    def __init__(self, para_url_reg, allow_domin=None):
+    def __init__(self, para_url_reg, urls_queue, allow_domin=None):
         """Initialize the Parser class.
 
         Arguments:
@@ -22,10 +22,11 @@ class Parser(object):
         Keyword Arguments:
             allow_domin {string} -- The allowed url domin. (default: {None})
         """
-        self.allow_domin = allow_domin
-        self.para_url_pat = re.compile(para_url_reg)
+        self._urls_queue = urls_queue
+        # self._allow_domin = allow_domin
+        self._para_url_pat = re.compile(para_url_reg)
 
-    def parse_html(self, url, content):
+    def working(self, url, content):
         """Parser the html content.
 
         Arguments:
@@ -40,7 +41,7 @@ class Parser(object):
         # text = etree.tostring(root, encoding="utf-8").decode("utf-8")
 
         # If the url is a paragraph url.
-        if self.para_url_pat.match(url):
+        if self._para_url_pat.match(url):
             # Extract the news title date and news
             title = root.xpath("//title/text()")
             date = root.xpath(
@@ -56,7 +57,8 @@ class Parser(object):
 
         # Extract urls from page.
         urls = self._get_page_links(root)
-        return news_item, urls
+        self._urls_queue.push(urls)
+        return news_item
 
     def _get_news_item(self, url, title, date, news):
         """Return a news item dict"""
@@ -74,7 +76,7 @@ class Parser(object):
         """Get links from html content."""
         # TODO(SHLLL): 优化url的过滤流程即不只保留新闻url
         urls = filter(
-            lambda x: self.para_url_pat.match(x),
+            lambda x: self._para_url_pat.match(x),
             root.xpath("//*[@href]/@href"))
         urls = [str(url).replace('\n', '') for url in urls]
         return urls

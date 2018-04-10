@@ -3,13 +3,14 @@
 # @Email: shlll7347@gmail.com
 # @Date:   2018-03-26 17:01:32
 # @Last Modified by:   SHLLL
-# @Last Modified time: 2018-04-09 10:54:21
+# @Last Modified time: 2018-04-10 14:56:05
 # @License: MIT LICENSE
 
+import logging
 # import jieba
 from jieba import analyse
-from datapipe import CsvReader, CsvWriter
-import utils
+from .spider.instances import DataSaver, DataReader, CsvReader, CsvWriter
+from . import utils
 
 
 class Keyword(object):
@@ -17,12 +18,15 @@ class Keyword(object):
     def __init__(self):
         filenames = ["url", "title", "keywords"]
         # filenames = ["title", "news", "seg", "tfidf", "textrank", "keywords"]
-        self.csvwriter = CsvWriter("data/csv/ifeng_key.csv", filenames)
-        self.csvreader = CsvReader("data/csv/ifeng.csv")
+        csvwriter = CsvWriter("data/csv/ifeng_key.csv", filenames)
+        csvreader = CsvReader("data/csv/ifeng.csv")
+        self._datasaver = DataSaver(csvwriter)
+        self._datareader = DataReader(csvreader)
 
-    def word_segment(self):
-        count = 0
-        for news_dict in self.csvreader.read_lines():
+    def working(self):
+        logging.info("Start finding paragraph keywords...")
+        count = 1
+        for news_dict in self._datareader.working():
             url = news_dict["url"]
             title = news_dict["title"]
             news = news_dict["news"]
@@ -35,11 +39,7 @@ class Keyword(object):
             # seg_dict = utils.add_dict(
             #     title=title, news=news, seg=seg,
             #     tfidf=tfidf, textrank=textrank, keywords=keywords)
-            self.csvwriter.write_line(seg_dict)
+            logging.info("loop:%s, keyword:%s", count, keywords)
+            self._datasaver.working(seg_dict)
             count += 1
-            print("loop%d: %s" % (count, title))
-
-
-if __name__ == "__main__":
-    keyword = Keyword()
-    keyword.word_segment()
+        logging.info("End finding paragraph keywords...")

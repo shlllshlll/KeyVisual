@@ -10,9 +10,10 @@ jieba = "*"
 cchardet = "*"
 lxml = "*"
 selenium = "*"
-pynput = "*"
 pandas = "*"
 scipy = "*"
+pymysql = "*"
+django = "*"
 
 [dev-packages]
 ipython = "*"

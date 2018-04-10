@@ -13,6 +13,7 @@
 		{
 			"folder_exclude_patterns":
 			[
+				".idea",
 				".venv",
 				".ipynb_checkpoints"
 			],

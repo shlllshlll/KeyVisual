@@ -3,10 +3,11 @@
 # @Email: shlll7347@gmail.com
 # @Date:   2018-04-10 15:01:37
 # @Last Modified by:   SHLLL
-# @Last Modified time: 2018-04-10 15:10:11
+# @Last Modified time: 2018-04-13 00:33:42
 # @License: MIT LICENSE
 
 import csv
+import pandas as pd
 
 
 class CsvWriter(object):
@@ -29,18 +30,24 @@ class CsvWriter(object):
             filename {str} -- The file name to write.
             header {list} -- The field names list.
         """
-        self.filename = filename
-        self.header = header
-        self.file_obj = open(self.filename, "w", errors="ignore")
-        self.writer = csv.DictWriter(self.file_obj, fieldnames=self.header)
-        self.writer.writeheader()
+        self._file_obj = open(filename, "w", errors="ignore")
+        self._writer = csv.DictWriter(self._file_obj, fieldnames=header)
+        self._writer.writeheader()
 
     def __del__(self):
-        self.file_obj.close()
+        self.close()
+
+    def close(self):
+        if self._file_obj is not None:
+            self._file_obj.close()
+            self._file_obj = None
+            self._writer = None
 
     def working(self, data):
         """Write a data line to csv file."""
-        self.writer.writerow(data)
+        if self._writer is None:
+            raise ValueError("The file is not opened yet.")
+        self._writer.writerow(data)
 
 
 class CsvReader(object):
@@ -57,12 +64,17 @@ class CsvReader(object):
 
     def __init__(self, filename):
         """Initialize the CsvReader class"""
-        self.filename = filename
-        self.file_obj = open(self.filename, "r", errors="ignore")
-        self.reader = csv.DictReader(self.file_obj)
+        self._file_obj = open(filename, "r", errors="ignore")
+        self._reader = csv.DictReader(self._file_obj)
 
     def __del__(self):
-        self.file_obj.close()
+        self.close()
+
+    def close(self):
+        if self._file_obj is not None:
+            self._file_obj.close()
+            self._file_obj = None
+            self._reader = None
 
     def working(self):
         """Read data lines from the csv file.
@@ -70,5 +82,32 @@ class CsvReader(object):
         Yields:
             dict -- A piece of the data in dict.
         """
-        for row in self.reader:
-            yield row
+        if self._reader is None:
+            raise ValueError("The file is not opened yet.")
+        for row in self._reader:
+            row_list = [value for key, value in row.items()]
+            yield row_list
+
+
+class PandasCsvReader(object):
+
+    def __init__(self, filename):
+        self._filename = filename
+
+    def working(self):
+        return pd.read_csv(self._filename, encoding="utf8")
+
+    def close(self):
+        pass
+
+
+class PandasCsvWriter(object):
+
+    def __init__(self, filename):
+        self._filename = filename
+
+    def working(self, df):
+        df.to_csv(self._filename, encoding='utf-8')
+
+    def close(self):
+        pass

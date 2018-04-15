@@ -15,6 +15,7 @@ scipy = "*"
 pymysql = "*"
 django = "*"
 mysqlclient = "*"
+sqlalchemy = "*"
 
 [dev-packages]
 ipython = "*"

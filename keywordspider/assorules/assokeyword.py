@@ -3,7 +3,7 @@
 # @Email: shlll7347@gmail.com
 # @Date:   2018-03-30 10:28:00
 # @Last Modified by:   SHLLL
-# @Last Modified time: 2018-04-10 15:07:16
+# @Last Modified time: 2018-04-13 08:59:24
 # @License: MIT LICENSE
 
 import logging
@@ -13,13 +13,16 @@ from . import apriori as asr
 
 class Assokeyword(object):
 
-    def __init__(self, filename="data/csv/ifeng_key.csv"):
-        news_item = pd.read_csv(filename, encoding="utf8")     # 从csv文件中读取数据
+    def __init__(self, datareader, freq_datawriter, conf_datawriter):
+        news_item = datareader.working()     # 从csv文件中读取数据
         keywords = list(map(lambda x: x.split(
             '/'), news_item["keywords"]))   # 从数据中提取关键词数据
         del news_item     # 删除无用的变量
         self._key_df = pd.DataFrame(keywords)
         del keywords
+        self._datareader = datareader
+        self._freq_datawriter = freq_datawriter
+        self._conf_datawriter = conf_datawriter
 
     def working(self, min_support=0.03, min_confidence=0.1,
                 find_rules=True, max_len=4):
@@ -31,11 +34,16 @@ class Assokeyword(object):
         df_tr = pd.DataFrame(key_tr_array, columns=key_column)
         # df_tr.loc[:, ("中非", "非洲", "习近平")].head()
         # 提取出现一次以上的关键词
-        res_df = asr.apriori(df_tr, min_support=min_support,
-                             min_confidence=min_confidence,
-                             find_rules=find_rules, max_len=4,
-                             use_colnames=True)
-        logging.info("%s", res_df[0])
-        logging.info("%s", res_df[1])
+        fre_df, con_df = asr.apriori(df_tr, min_support=min_support,
+                                     min_confidence=min_confidence,
+                                     find_rules=find_rules, max_len=4,
+                                     use_colnames=True)
+        logging.info("%s", fre_df)
+        self._freq_datawriter.working(fre_df)
+        if con_df is not None:
+            logging.info("%s", con_df)
+            self._conf_datawriter.working(con_df)
         logging.info("End finding associate keywords...")
-        return res_df
+        self._datareader.close()
+        self._freq_datawriter.close()
+        self._conf_datawriter.close()

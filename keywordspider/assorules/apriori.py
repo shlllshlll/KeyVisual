@@ -3,10 +3,11 @@
 # @Email: shlll7347@gmail.com
 # @Date:   2018-04-03 21:50:02
 # @Last Modified by:   SHLLL
-# @Last Modified time: 2018-04-09 02:27:15
+# @Last Modified time: 2018-04-13 08:57:56
 # @License: MIT LICENSE
 
 # from itertools import combinations
+import logging
 import pandas as pd
 import numpy as np
 from scipy.sparse import csr_matrix
@@ -169,8 +170,12 @@ def apriori(
     itemset_dict, support_dict = _find_frequent_items(df, min_support, max_len)
     con_df = None
     if find_rules:
-        con_df = _find_asso_rules(
-            df, itemset_dict, support_dict, min_confidence)
+        try:
+            con_df = _find_asso_rules(
+                df, itemset_dict, support_dict, min_confidence)
+        except ValueError:
+            logging.error("No confidence item found.")
+            con_df = None
 
     all_fre = []
     for k in sorted(itemset_dict):    # 取出字典中的key
@@ -185,12 +190,12 @@ def apriori(
         mapping = {idx: item for (idx,), item in np.ndenumerate(
             df.columns)}  # 创建一个索引--关键词名的mapping
         fre_df["itemsets"] = fre_df["itemsets"].apply(
-            lambda x: [mapping[i] for i in x])
+            lambda x: "/".join([mapping[i] for i in x]))
         if con_df is not None:
             con_df["front_item"] = con_df["front_item"].apply(
-                lambda x: [mapping[i] for i in x])
+                lambda x: "/".join([mapping[i] for i in x]))
             con_df["back_item"] = con_df["back_item"].apply(
-                lambda x: [mapping[i] for i in x])
+                lambda x: "/".join([mapping[i] for i in x]))
     fre_df = fre_df.reset_index(drop=True)
     return fre_df, con_df
 

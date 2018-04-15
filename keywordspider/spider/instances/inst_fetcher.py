@@ -3,10 +3,9 @@
 # @Email: shlll7347@gmail.com
 # @Date:   2018-03-22 21:19:13
 # @Last Modified by:   SHLLL
-# @Last Modified time: 2018-04-09 23:42:03
+# @Last Modified time: 2018-04-13 01:30:46
 # @License: MIT LICENSE
 
-import logging
 import requests
 from requests.exceptions import HTTPError
 
@@ -39,24 +38,18 @@ class Fetcher(object):
             ValueError -- Means the url is not allowed.
             HTTPError -- Means the response is not 200.
         """
-        try:
-            url = self._urls_queue.pop()
-        except IndexError as e:
-            # logging.error(e)
-            raise
-        else:
-            # It the url not allowed, then raise error
-            if self.allow_domin not in url:
-                raise ValueError("Url not allowed: %s" % url)
-            response = requests.get(url=url, headers=self._headers)
-            if not response.status_code == requests.codes.ok:
-                raise HTTPError("Status code not ok: %d" %
-                                response.status_code)
-            response.encoding = "utf-8"
-            return url, response.text
-
-
-if __name__ == "__main__":
-    downloader = Fetcher()
-    downloader.add_urls(["http://news.ifeng.com/a/20180321/56923852_0.shtml"])
-    downloader.download_url()
+        # try:
+        url = self._urls_queue.pop()
+        # except IndexError as e:
+        #     logging.error(e)
+        #     raise
+        # else:
+        # # It the url not allowed, then raise error
+        # if self.allow_domin not in url:
+        #     raise ValueError("Url not allowed: %s" % url)
+        response = requests.get(url=url, headers=self._headers)
+        if not response.status_code == requests.codes.ok:
+            raise HTTPError("Status code not ok: %d" %
+                            response.status_code)
+        response.encoding = "utf-8"
+        return url, response.text

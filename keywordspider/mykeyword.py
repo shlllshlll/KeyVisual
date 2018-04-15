@@ -3,33 +3,28 @@
 # @Email: shlll7347@gmail.com
 # @Date:   2018-03-26 17:01:32
 # @Last Modified by:   SHLLL
-# @Last Modified time: 2018-04-10 14:56:05
+# @Last Modified time: 2018-04-12 21:04:04
 # @License: MIT LICENSE
 
 import logging
 # import jieba
 from jieba import analyse
-from .spider.instances import DataSaver, DataReader, CsvReader, CsvWriter
 from . import utils
 
 
 class Keyword(object):
 
-    def __init__(self):
-        filenames = ["url", "title", "keywords"]
-        # filenames = ["title", "news", "seg", "tfidf", "textrank", "keywords"]
-        csvwriter = CsvWriter("data/csv/ifeng_key.csv", filenames)
-        csvreader = CsvReader("data/csv/ifeng.csv")
-        self._datasaver = DataSaver(csvwriter)
-        self._datareader = DataReader(csvreader)
+    def __init__(self, datawriter, datareader):
+        self._datasaver = datawriter
+        self._datareader = datareader
 
     def working(self):
         logging.info("Start finding paragraph keywords...")
         count = 1
         for news_dict in self._datareader.working():
-            url = news_dict["url"]
-            title = news_dict["title"]
-            news = news_dict["news"]
+            url = news_dict[0]
+            title = news_dict[1]
+            news = news_dict[3]
             # seg = "/".join(jieba.cut(news))
             # tfidf = "/".join(analyse.tfidf(news))
             # textrank = "/".join(analyse.textrank(news))
@@ -42,4 +37,6 @@ class Keyword(object):
             logging.info("loop:%s, keyword:%s", count, keywords)
             self._datasaver.working(seg_dict)
             count += 1
+        self._datareader.close()
+        self._datasaver.close()
         logging.info("End finding paragraph keywords...")

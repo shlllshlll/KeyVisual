@@ -3,7 +3,7 @@
 # @Email: shlll7347@gmail.com
 # @Date:   2018-04-10 15:11:51
 # @Last Modified by:   SHLLL
-# @Last Modified time: 2018-04-13 00:00:08
+# @Last Modified time: 2018-04-16 20:26:49
 # @License: MIT LICENSE
 
 import pymysql
@@ -31,7 +31,7 @@ class _MysqlBase(object):
                 host='localhost',
                 user='root',
                 password='123456',
-                db='kwspider',
+                db='visualize',
                 charset='utf8',
             )
             _MysqlBase._cursor = _MysqlBase._connection.cursor()
@@ -90,7 +90,7 @@ class _PandasMysqlBase(object):
     def _connect_mysql(cls):
         if _PandasMysqlBase._connection is None:
             engine = create_engine(
-                'mysql://root:123456@localhost:3306/kwspider?charset=utf8')
+                'mysql://root:123456@localhost:3306/visualize?charset=utf8')
             _PandasMysqlBase._connection = engine.connect()
 
     @classmethod

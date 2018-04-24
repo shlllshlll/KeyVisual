@@ -3,9 +3,11 @@
 # @Email: shlll7347@gmail.com
 # @Date:   2018-04-13 00:45:47
 # @Last Modified by:   SHLLL
-# @Last Modified time: 2018-04-13 01:19:35
+# @Last Modified time: 2018-04-23 00:55:11
 # @License: MIT LICENSE
 
+import re
+import datetime
 from lxml import etree
 from .inst_parser import Parser
 
@@ -42,8 +44,11 @@ class IfengParser(Parser):
                 "//div[@id='main_content']/p/text() |"
                 " //div[@id='yc_con_txt']/p[not(@class)]//text()")
             if title and date and news.replace("\n", ""):
+                date = re.split(r"[- \:年月日]", str(date[0]))
+                date = list(map(lambda x: int(x), filter(lambda x: x != '', date)))
+                date = datetime.datetime(*date[:6]).strftime('%Y-%m-%d')
                 news_item = self._get_news_item(
-                    url, str(title[0].replace("'", '"')), str(date[0]), news)
+                    url, str(title[0].replace("'", '"')), date, news)
 
         # Extract urls from page.
         urls = self._get_page_links(root)

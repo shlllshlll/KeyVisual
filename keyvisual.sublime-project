@@ -11,6 +11,10 @@
 	"folders":
 	[
 		{
+			"file_exclude_patterns":
+			[
+				"*.map"
+			],
 			"folder_exclude_patterns":
 			[
 				".idea",

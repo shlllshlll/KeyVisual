@@ -3,7 +3,7 @@
 # @Email: shlll7347@gmail.com
 # @Date:   2018-03-26 17:01:32
 # @Last Modified by:   SHLLL
-# @Last Modified time: 2018-04-12 21:04:04
+# @Last Modified time: 2018-04-17 16:04:36
 # @License: MIT LICENSE
 
 import logging
@@ -22,9 +22,9 @@ class Keyword(object):
         logging.info("Start finding paragraph keywords...")
         count = 1
         for news_dict in self._datareader.working():
-            url = news_dict[0]
-            title = news_dict[1]
-            news = news_dict[3]
+            url = news_dict[1]
+            title = news_dict[2]
+            news = news_dict[4]
             # seg = "/".join(jieba.cut(news))
             # tfidf = "/".join(analyse.tfidf(news))
             # textrank = "/".join(analyse.textrank(news))

@@ -4,3 +4,5 @@
 *.sublime-workspace
 *.sublime-project
 *.csv
+.tern-project
+.eslintrc

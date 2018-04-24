@@ -1,0 +1,51 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>基于垂直搜索引擎的关联关键词可视化的实现</title>
+    <link rel="stylesheet" type="text/css" href="{% static "client/css/bootstrap.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "client/css/base.css" %}">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <a class="navbar-brand" href="{% url 'client:index' %}">关联关键词可视化平台</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item {% block nav1 %}{% endblock nav1 %}">
+                    <a href="{% url 'client:index' %}" class="nav-link">主页</a>
+                </li>
+                <li class="nav-item {% block nav2 %}{% endblock nav2 %}">
+                    <a href="#" class="nav-link">爬虫控制</a>
+                </li>
+                <li class="nav-item {% block nav3 %}{% endblock nav3 %}">
+                    <a href="{% url 'client:result' %}" class="nav-link">爬取结果</a>
+                </li>
+                <li class="nav-item {% block nav4 %}{% endblock nav4 %}">
+                    <a href="#" class="nav-link">关键词</a>
+                </li>
+                <li class="nav-item {% block nav5 %}{% endblock nav5 %}">
+                    <a href="#" class="nav-link">关联词</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    {% block content %}
+    {% endblock content %}
+    <footer class="container">
+        <p>&copy; SHLLL 2018</p>
+    </footer>
+    <script type="text/javascript" src="{% static "client/js/jquery-3.3.1.js" %}"></script>
+    <script type="text/javascript" src="{% static "client/js/popper.js" %}"></script>
+    <script type="text/javascript" src="{% static "client/js/bootstrap.js" %}"></script>
+    {% block jssrc %}
+    {% endblock jssrc %}
+</body>
+
+</html>

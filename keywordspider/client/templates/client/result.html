@@ -1,0 +1,39 @@
+{% extends "client/base.html" %}
+{% load static %}
+
+{% block nav3 %}
+active
+{% endblock nav3 %}
+
+{% block content %}
+<main role="main">
+    <div class="container">
+        <nav aria-label="Table navigation" style="margin-top: 2em;">
+          <ul class="pagination justify-content-end">
+          </ul>
+        </nav>
+        <div class="row">
+            <div class="col table-striped">
+                <table class="table table-hover" id="result-table">
+                    <thead>
+                        <tr class="table-info">
+                            <th scope='col'>#</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock content %}
+
+{% block jssrc %}
+<script type="text/javascript">
+    var dataResult = {{ result_json | safe }};
+    var dataLen = {{ result_len | safe }};
+</script>
+<script type="text/javascript" src="{% static "client/js/result.js" %}"></script>
+{% endblock jssrc %}
+

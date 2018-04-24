@@ -3,7 +3,7 @@
 # @Email: shlll7347@gmail.com
 # @Date:   2018-03-22 21:21:05
 # @Last Modified by:   SHLLL
-# @Last Modified time: 2018-04-13 00:52:04
+# @Last Modified time: 2018-04-23 00:11:28
 # @License: MIT LICENSE
 
 import re
@@ -27,7 +27,7 @@ class Parser(object):
 
     def _get_news_item(self, url, title, date, news):
         """Return a news item dict"""
-        return {"url": url, "title": title, "date_": date, "news": news}
+        return {"url": url, "title": title, "datee": date, "news": news}
 
     def _get_news_para(self, root, xpath):
         """Return the news paragraph."""
@@ -45,14 +45,3 @@ class Parser(object):
             root.xpath("//*[@href]/@href"))
         urls = [str(url).replace('\n', '') for url in urls]
         return urls
-
-
-if __name__ == "__main__":
-    import requests
-
-    para_url_reg = r"http://news.ifeng.com/a/\d{8}/\d{8}_\d.shtml"
-    parser = Parser(para_url_reg)
-    url = "http://news.ifeng.com/a/20180312/56656261_0.shtml"
-    response = requests.get(url)
-    response.encoding = "utf-8"
-    parser.parse_html(url, response.text)

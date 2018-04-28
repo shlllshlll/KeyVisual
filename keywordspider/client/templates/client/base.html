@@ -28,10 +28,10 @@
                     <a href="{% url 'client:result' %}" class="nav-link">爬取结果</a>
                 </li>
                 <li class="nav-item {% block nav4 %}{% endblock nav4 %}">
-                    <a href="#" class="nav-link">关键词</a>
+                    <a href="{% url 'client:keyword' %}" class="nav-link">关键词</a>
                 </li>
                 <li class="nav-item {% block nav5 %}{% endblock nav5 %}">
-                    <a href="#" class="nav-link">关联词</a>
+                    <a href="{% url 'client:assocword' %}" class="nav-link">关联词</a>
                 </li>
             </ul>
         </div>

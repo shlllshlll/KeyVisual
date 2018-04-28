@@ -29,4 +29,5 @@ class Frequent(models.Model):
 class Confidence(models.Model):
     index = models.BigIntegerField(primary_key=True)
     front_item = models.TextField()
-    back_item = models.FloatField()
+    back_item = models.TextField()
+    confidence = models.FloatField()

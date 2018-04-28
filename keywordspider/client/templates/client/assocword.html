@@ -1,14 +1,18 @@
 {% extends "client/base.html" %}
 {% load static %}
 
-{% block nav3 %}
+{% block nav5 %}
 active
-{% endblock nav3 %}
+{% endblock nav5 %}
 
 {% block content %}
 <main role="main">
     <div class="container">
-        <div class="row" style="margin-top: 2em;">
+        <nav class="nav nav-pills justify-content-center" style="margin-top: 2em;">
+          <a class="nav-link active"  data-toggle="pill" tab-name="freq" href="javascript:void(0)">频繁项</a>
+          <a class="nav-link"  data-toggle="pill" tab-name="assoc" href="javascript:void(0)">关联规则</a>
+        </nav>
+        <div class="row" style="margin-top: 1em;">
             <div class="col table-striped">
                 <table class="table table-hover" id="result-table">
                     <thead>
@@ -31,13 +35,14 @@ active
 
 {% block jssrc %}
 <script type="text/javascript" src="{% static "client/js/base-table.js" %}"></script>
-<script type="text/javascript" src="{% static "client/js/result-table.js" %}"></script>
+<script type="text/javascript" src="{% static "client/js/assocword-table.js" %}"></script>
 <script type="text/javascript">
-    var dataResult = {{ result_json | safe }};
-    var dataLen = {{ result_len | safe }};
-    let title = {{result_title | safe}};
-    let result = { data: dataResult, title: title, len: dataLen };
-    let table = new ResultTable(result);
+    const dataResult = {{ result_json | safe }};
+    const dataLen = {{ result_len | safe }};
+    const title = {{result_title | safe}};
+    const display = {{result_display | safe}};
+    const result = { data: dataResult, title: title, len: dataLen, display:display};
+    const table = new AssocwordTable(result);
     table.init();
 </script>
 {% endblock jssrc %}

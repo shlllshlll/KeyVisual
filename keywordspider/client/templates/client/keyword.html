@@ -1,9 +1,9 @@
 {% extends "client/base.html" %}
 {% load static %}
 
-{% block nav3 %}
+{% block nav4 %}
 active
-{% endblock nav3 %}
+{% endblock nav4 %}
 
 {% block content %}
 <main role="main">
@@ -31,13 +31,13 @@ active
 
 {% block jssrc %}
 <script type="text/javascript" src="{% static "client/js/base-table.js" %}"></script>
-<script type="text/javascript" src="{% static "client/js/result-table.js" %}"></script>
+<script type="text/javascript" src="{% static "client/js/keyword-table.js" %}"></script>
 <script type="text/javascript">
     var dataResult = {{ result_json | safe }};
     var dataLen = {{ result_len | safe }};
     let title = {{result_title | safe}};
     let result = { data: dataResult, title: title, len: dataLen };
-    let table = new ResultTable(result);
+    let table = new KeywordTable(result);
     table.init();
 </script>
 {% endblock jssrc %}

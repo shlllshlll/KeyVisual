@@ -3,7 +3,7 @@
  * @Email: shlll7347@gmail.com
  * @Date:   2018-04-23 18:57:58
  * @Last Modified by:   SHLLL
- * @Last Modified time: 2018-04-28 21:19:43
+ * @Last Modified time: 2018-04-29 15:18:27
  * @License: MIT LICENSE
  */
 /**
@@ -56,7 +56,7 @@ class BaseTable {
                 // 定义ajax回调方法
                 $.getJSON(url, data => {
                     // 将JSON字符串转换为JSON对象
-                    // data = JSON.parse(data);
+                    data = JSON.parse(data);
                     this.setTableBody(data);
                 })
             });
@@ -66,15 +66,29 @@ class BaseTable {
         this.navList[0].addClass("active")
     }
 
-    setTableHead(tableName) {
+    setTableHead(tableName, tableWidth=null) {
         this.tableHead.empty() // 首先删除所有的子元素
 
-        this.tableHead.append("<th scope='col'>#</th>");
         for (let count in tableName) {
             const th = $("<th scope='col'></th>");
             th.text(tableName[count]);
+            if(tableWidth){
+                th.css("width", tableWidth[count])
+            }
             this.tableHead.append(th);
         }
+    }
+
+    init(){
+        // 初始化页码导航
+        this.initNavgate();
+
+        // 初始化表格的标题
+        this.setTableHead(this.dataResult.title, this.dataResult.width);
+
+        // 初始化表格内容
+        this.setTableBody(this.dataResult.data);
+
     }
 
 }

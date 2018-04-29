@@ -18,7 +18,8 @@ class SpiderResultView(ListView):
         # 将额外的数据添加到上下文数据中
         context = super().get_context_data(**kwargs)
         result_len = len(Content.objects.all())
-        context['result_title'] = ["标题", "发布日期", "新闻"]
+        context['result_title'] = ["#", "标题", "发布日期", "新闻"]
+        context['result_width'] = ["5%", "20%", "15%", "60%"]
         context['result_len'] = result_len
         context['result_json'] = serializers.serialize(
             "json", Content.objects.all()[:self.display_count])
@@ -41,7 +42,8 @@ class KeywordView(ListView):
         # 将额外的数据添加到上下文数据中
         context = super().get_context_data(**kwargs)
         result_len = len(Keyword.objects.all())
-        context['result_title'] = ["标题", "关键词"]
+        context['result_title'] = ["#", "标题", "关键词"]
+        context['result_width'] = ["5%", "30%", "65%"]
         context['result_len'] = result_len
         context['result_json'] = serializers.serialize(
             "json", Keyword.objects.all()[:self.display_count])
@@ -65,7 +67,8 @@ class AssocwordView(ListView):
         context = super().get_context_data(**kwargs)
         result_len = len(Frequent.objects.all())
         context['result_display'] = ["itemsets", "support"]
-        context['result_title'] = ["关键词", "支持度"]
+        context['result_title'] = ["#", "关键词", "支持度"]
+        context['result_width'] = ["15%", "50%", "35%"]
         context['result_len'] = result_len
         context['result_json'] = serializers.serialize(
             "json", Frequent.objects.all()[:self.display_count])
@@ -75,13 +78,16 @@ class AssocwordView(ListView):
 def assocword_len_ajax(request, cur_tab):
     if cur_tab == "freq":
         length = len(Frequent.objects.all())
-        title = ["关键词", "支持度"]
+        title = ["#", "关键词", "支持度"]
+        width = ["15%", "50%", "35%"]
         display = ["itemsets", "support"]
     elif cur_tab == "assoc":
         length = len(Confidence.objects.all())
-        title = ["后项规则", "前向规则", "置信度"]
+        title = ["#", "后项规则", "前向规则", "置信度"]
+        width = ["15%", "30%", "30%", "25%"]
         display = ["back_item", "front_item", "confidence"]
-    return JsonResponse({"len": length, "title": title, "display": display})
+    return JsonResponse({"len": length, "title": title,
+                         "display": display, "width": width})
 
 
 def assocword_ajax(request, cur_tab, start_count, end_count):

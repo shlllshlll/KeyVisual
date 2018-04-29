@@ -3,7 +3,7 @@
 * @Email: shlll7347@gmail.com
 * @Date:   2018-04-24 22:13:19
 * @Last Modified by:   SHLLL
-* @Last Modified time: 2018-04-25 01:09:02
+* @Last Modified time: 2018-04-29 14:43:23
 * @License: MIT LICENSE
 */
 
@@ -38,17 +38,5 @@ class KeywordTable extends BaseTable {
             date.text(data[count].fields.keywords);
             this.tableBody.append(date);
         }
-    }
-
-    init(){
-        // 初始化页码导航
-        this.initNavgate();
-
-        // 初始化表格的标题
-        this.setTableHead(this.dataResult.title);
-
-        // 初始化表格内容
-        this.setTableBody(this.dataResult.data);
-
     }
 }

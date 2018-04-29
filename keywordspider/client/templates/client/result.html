@@ -33,11 +33,12 @@ active
 <script type="text/javascript" src="{% static "client/js/base-table.js" %}"></script>
 <script type="text/javascript" src="{% static "client/js/result-table.js" %}"></script>
 <script type="text/javascript">
-    var dataResult = {{ result_json | safe }};
-    var dataLen = {{ result_len | safe }};
-    let title = {{result_title | safe}};
-    let result = { data: dataResult, title: title, len: dataLen };
-    let table = new ResultTable(result);
+    const dataResult = {{ result_json | safe }};
+    const dataLen = {{ result_len | safe }};
+    const title = {{result_title | safe}};
+    const width = {{result_width | safe}};
+    const result = { data: dataResult, title: title, len: dataLen, width:width};
+    const table = new ResultTable(result);
     table.init();
 </script>
 {% endblock jssrc %}

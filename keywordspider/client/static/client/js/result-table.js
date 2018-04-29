@@ -3,7 +3,7 @@
 * @Email: shlll7347@gmail.com
 * @Date:   2018-04-24 22:13:19
 * @Last Modified by:   SHLLL
-* @Last Modified time: 2018-04-25 00:50:31
+* @Last Modified time: 2018-04-29 15:20:55
 * @License: MIT LICENSE
 */
 
@@ -23,7 +23,7 @@ class ResultTable extends BaseTable {
             // 插入行号
             const th = $("<th scope='row'></th>");
             th.text(data[count].pk);
-            this.tableBody.append(th);
+            tr.append(th);
 
             // 插入新闻标题超链接
             const title = $("<td></td>");
@@ -31,29 +31,17 @@ class ResultTable extends BaseTable {
             url.attr("href", data[count].fields.url);
             url.text(data[count].fields.title.substring(0, 10) + "...");
             title.append(url);
-            this.tableBody.append(title);
+            tr.append(title);
 
             // 插入发布日期
             const date = $("<td></td>");
             date.text(data[count].fields.datee);
-            this.tableBody.append(date);
+            tr.append(date);
 
             // 插入新闻内容
             const news = $("<td></td>");
             news.text(data[count].fields.news.substring(0, 40) + "...");
-            this.tableBody.append(news);
+            tr.append(news);
         }
-    }
-
-    init(){
-        // 初始化页码导航
-        this.initNavgate();
-
-        // 初始化表格的标题
-        this.setTableHead(this.dataResult.title);
-
-        // 初始化表格内容
-        this.setTableBody(this.dataResult.data);
-
     }
 }

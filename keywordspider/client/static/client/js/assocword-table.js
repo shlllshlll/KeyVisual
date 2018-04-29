@@ -3,7 +3,7 @@
  * @Email: shlll7347@gmail.com
  * @Date:   2018-04-24 22:13:19
  * @Last Modified by:   SHLLL
- * @Last Modified time: 2018-04-28 21:49:13
+ * @Last Modified time: 2018-04-29 14:52:02
  * @License: MIT LICENSE
  */
 
@@ -47,7 +47,7 @@ class AssocwordTable extends BaseTable {
             $.getJSON(url, data => {
                 this.pageCount = Math.ceil(data.len / this.displayCount);
                 this.curDisplay = data.display;
-                this.setTableHead(data.title);
+                this.setTableHead(data.title, data.width);
                 this.initNavgate();
                 // 定义ajax回调方法
                 $.getJSON(this.curActiveTab + "/0/" + this.displayCount, data => {
@@ -105,7 +105,7 @@ class AssocwordTable extends BaseTable {
         // 初始化页码导航
         this.initNavgate();
         // 初始化表格的标题
-        this.setTableHead(this.dataResult.title);
+        this.setTableHead(this.dataResult.title, this.dataResult.width);
         // 初始化表格内容
         this.setTableBody(this.dataResult.data, this.curDisplay);
 

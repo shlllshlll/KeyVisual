@@ -41,7 +41,8 @@ active
     const dataLen = {{ result_len | safe }};
     const title = {{result_title | safe}};
     const display = {{result_display | safe}};
-    const result = { data: dataResult, title: title, len: dataLen, display:display};
+    const width = {{result_width | safe}};
+    const result = { data: dataResult, title: title, len: dataLen, display:display, width:width};
     const table = new AssocwordTable(result);
     table.init();
 </script>

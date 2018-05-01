@@ -3,7 +3,7 @@
 # @Email: shlll7347@gmail.com
 # @Date:   2018-04-10 15:01:37
 # @Last Modified by:   SHLLL
-# @Last Modified time: 2018-04-13 00:33:42
+# @Last Modified time: 2018-05-01 21:06:47
 # @License: MIT LICENSE
 
 import csv
@@ -30,7 +30,7 @@ class CsvWriter(object):
             filename {str} -- The file name to write.
             header {list} -- The field names list.
         """
-        self._file_obj = open(filename, "w", errors="ignore")
+        self._file_obj = open(filename, "w", errors="ignore", encoding="utf-8")
         self._writer = csv.DictWriter(self._file_obj, fieldnames=header)
         self._writer.writeheader()
 
@@ -64,7 +64,7 @@ class CsvReader(object):
 
     def __init__(self, filename):
         """Initialize the CsvReader class"""
-        self._file_obj = open(filename, "r", errors="ignore")
+        self._file_obj = open(filename, "r", errors="ignore", encoding="utf-8")
         self._reader = csv.DictReader(self._file_obj)
 
     def __del__(self):
@@ -86,7 +86,7 @@ class CsvReader(object):
             raise ValueError("The file is not opened yet.")
         for row in self._reader:
             row_list = [value for key, value in row.items()]
-            yield row_list
+            yield [0] + row_list
 
 
 class PandasCsvReader(object):
@@ -95,7 +95,7 @@ class PandasCsvReader(object):
         self._filename = filename
 
     def working(self):
-        return pd.read_csv(self._filename, encoding="utf8")
+        return pd.read_csv(self._filename, encoding="utf-8")
 
     def close(self):
         pass

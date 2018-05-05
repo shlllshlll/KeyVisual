@@ -3,7 +3,7 @@
 # @Email: shlll7347@gmail.com
 # @Date:   2018-04-03 21:50:02
 # @Last Modified by:   SHLLL
-# @Last Modified time: 2018-04-13 08:57:56
+# @Last Modified time: 2018-04-30 21:26:37
 # @License: MIT LICENSE
 
 # from itertools import combinations
@@ -201,7 +201,3 @@ def apriori(
 
 
 __all__ = ["transaction_encoder", "apriori"]
-
-if __name__ == "__main__":
-    result = _combinations([1, 2, 3, 4], count=2)
-    print(result)

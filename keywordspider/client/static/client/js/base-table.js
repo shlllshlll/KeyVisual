@@ -3,7 +3,7 @@
  * @Email: shlll7347@gmail.com
  * @Date:   2018-04-23 18:57:58
  * @Last Modified by:   SHLLL
- * @Last Modified time: 2018-04-29 15:18:27
+ * @Last Modified time: 2018-04-29 20:34:14
  * @License: MIT LICENSE
  */
 /**
@@ -21,12 +21,43 @@ class BaseTable {
         this.displayCount = 15;
         this.pageCount = Math.ceil(content.len / this.displayCount);
 
-        this.navDom = $(".pagination");
+        // this.navDom = $(".pagination");
         this.navList = [];
 
-        const resultTable = $("#result-table");
-        this.tableHead = resultTable.find("thead>tr"); //选取表格头
-        this.tableBody = resultTable.find("tbody");
+        this.initDom();
+
+        // const resultTable = $("#result-table");
+        // this.tableHead = resultTable.find("thead>tr"); //选取表格头
+        // this.tableBody = resultTable.find("tbody");
+    }
+
+    initDom() {
+        const containDom = $("div.container"); // 选取container根节点
+
+        const tableRow = $('<div class="row""></div>');
+        const tableCol = $('<div class="col table-striped"></div>');
+        const tableDom = $('<table class="table table-hover" id="result-table"></table>');
+        const tableHead = $('<thead></thead>');
+        const tableHeadTr = $('<tr class="table-info"></tr>')
+        const tableBody = $('<tbody></tbody>');
+        tableRow.css('margin-top', '2em');
+        tableHead.append(tableHeadTr);
+        tableDom.append(tableHead);
+        tableDom.append(tableBody);
+        tableCol.append(tableDom);
+        tableRow.append(tableCol);
+        this.tableHead = tableHeadTr;
+        this.tableBody = tableBody;
+        this.tableRow = tableRow;
+
+        const navContain = $('<nav aria-label="Table navigation"></nav>');
+        const navDom = $('<ul class="pagination justify-content-end"></ul>');
+        navContain.append(navDom);
+        this.navDom = navDom;
+
+        containDom.append(tableRow);
+        containDom.append(navContain);
+        this.containDom = containDom;
     }
 
     initNavgate() {
@@ -66,29 +97,32 @@ class BaseTable {
         this.navList[0].addClass("active")
     }
 
-    setTableHead(tableName, tableWidth=null) {
+    setTableHead(tableName, tableWidth = null) {
         this.tableHead.empty() // 首先删除所有的子元素
 
         for (let count in tableName) {
             const th = $("<th scope='col'></th>");
             th.text(tableName[count]);
-            if(tableWidth){
+            if (tableWidth) {
                 th.css("width", tableWidth[count])
             }
             this.tableHead.append(th);
         }
     }
 
-    init(){
+    init() {
         // 初始化页码导航
         this.initNavgate();
 
         // 初始化表格的标题
         this.setTableHead(this.dataResult.title, this.dataResult.width);
 
-        // 初始化表格内容
-        this.setTableBody(this.dataResult.data);
-
+        // 定义ajax回调方法
+        $.getJSON("0/" + this.displayCount, data => {
+            // 将JSON字符串转换为JSON对象
+            data = JSON.parse(data);
+            this.setTableBody(data);
+        })
     }
 
 }

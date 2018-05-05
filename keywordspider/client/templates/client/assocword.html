@@ -8,27 +8,6 @@ active
 {% block content %}
 <main role="main">
     <div class="container">
-        <nav class="nav nav-pills justify-content-center" style="margin-top: 2em;">
-          <a class="nav-link active"  data-toggle="pill" tab-name="freq" href="javascript:void(0)">频繁项</a>
-          <a class="nav-link"  data-toggle="pill" tab-name="assoc" href="javascript:void(0)">关联规则</a>
-        </nav>
-        <div class="row" style="margin-top: 1em;">
-            <div class="col table-striped">
-                <table class="table table-hover" id="result-table">
-                    <thead>
-                        <tr class="table-info">
-                            <th scope='col'>#</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <nav aria-label="Table navigation">
-          <ul class="pagination justify-content-end">
-          </ul>
-        </nav>
     </div>
 </main>
 {% endblock content %}
@@ -37,12 +16,7 @@ active
 <script type="text/javascript" src="{% static "client/js/base-table.js" %}"></script>
 <script type="text/javascript" src="{% static "client/js/assocword-table.js" %}"></script>
 <script type="text/javascript">
-    const dataResult = {{ result_json | safe }};
-    const dataLen = {{ result_len | safe }};
-    const title = {{result_title | safe}};
-    const display = {{result_display | safe}};
-    const width = {{result_width | safe}};
-    const result = { data: dataResult, title: title, len: dataLen, display:display, width:width};
+    const result = {{ result | safe }};
     const table = new AssocwordTable(result);
     table.init();
 </script>

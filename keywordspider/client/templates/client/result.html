@@ -8,36 +8,16 @@ active
 {% block content %}
 <main role="main">
     <div class="container">
-        <div class="row" style="margin-top: 2em;">
-            <div class="col table-striped">
-                <table class="table table-hover" id="result-table">
-                    <thead>
-                        <tr class="table-info">
-                            <th scope='col'>#</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <nav aria-label="Table navigation">
-          <ul class="pagination justify-content-end">
-          </ul>
-        </nav>
     </div>
 </main>
 {% endblock content %}
 
 {% block jssrc %}
+<script type="text/javascript" src="{% static "client/js/circle-progress.js" %}"></script>
 <script type="text/javascript" src="{% static "client/js/base-table.js" %}"></script>
 <script type="text/javascript" src="{% static "client/js/result-table.js" %}"></script>
 <script type="text/javascript">
-    const dataResult = {{ result_json | safe }};
-    const dataLen = {{ result_len | safe }};
-    const title = {{result_title | safe}};
-    const width = {{result_width | safe}};
-    const result = { data: dataResult, title: title, len: dataLen, width:width};
+    const result = {{ result | safe }};
     const table = new ResultTable(result);
     table.init();
 </script>

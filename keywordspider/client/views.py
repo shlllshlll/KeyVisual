@@ -12,17 +12,14 @@ class SpiderResultView(ListView):
     template_name = "client/result.html"
     model = Content   # 定义数据模型
     context_object_name = "result_list"  # 定义模板中的变量名
-    display_count = 15
 
     def get_context_data(self, **kwargs):
         # 将额外的数据添加到上下文数据中
         context = super().get_context_data(**kwargs)
-        result_len = len(Content.objects.all())
-        context['result_title'] = ["#", "标题", "发布日期", "新闻"]
-        context['result_width'] = ["5%", "20%", "15%", "60%"]
-        context['result_len'] = result_len
-        context['result_json'] = serializers.serialize(
-            "json", Content.objects.all()[:self.display_count])
+        title = ["#", "标题", "发布日期", "新闻"]
+        width = ["5%", "20%", "15%", "60%"]
+        length = len(Content.objects.all())
+        context['result'] = {"title": title, "width": width, "len": length}
         return context
 
 
@@ -36,17 +33,14 @@ class KeywordView(ListView):
     template_name = "client/keyword.html"
     model = Keyword   # 定义数据模型
     context_object_name = "result_list"  # 定义模板中的变量名
-    display_count = 15
 
     def get_context_data(self, **kwargs):
         # 将额外的数据添加到上下文数据中
         context = super().get_context_data(**kwargs)
-        result_len = len(Keyword.objects.all())
-        context['result_title'] = ["#", "标题", "关键词"]
-        context['result_width'] = ["5%", "30%", "65%"]
-        context['result_len'] = result_len
-        context['result_json'] = serializers.serialize(
-            "json", Keyword.objects.all()[:self.display_count])
+        title = ["#", "标题", "关键词"]
+        width = ["5%", "30%", "65%"]
+        length = len(Keyword.objects.all())
+        context['result'] = {"title": title, "width": width, "len": length}
         return context
 
 
@@ -66,12 +60,11 @@ class AssocwordView(ListView):
         # 将额外的数据添加到上下文数据中
         context = super().get_context_data(**kwargs)
         result_len = len(Frequent.objects.all())
-        context['result_display'] = ["itemsets", "support"]
-        context['result_title'] = ["#", "关键词", "支持度"]
-        context['result_width'] = ["15%", "50%", "35%"]
-        context['result_len'] = result_len
-        context['result_json'] = serializers.serialize(
-            "json", Frequent.objects.all()[:self.display_count])
+        display = ["itemsets", "support"]
+        title = ["#", "关键词", "支持度"]
+        width = ["15%", "50%", "35%"]
+        length = result_len
+        context['result'] = {"display": display, "title": title, "width": width, "len": length}
         return context
 
 

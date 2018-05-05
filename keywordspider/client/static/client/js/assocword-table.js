@@ -3,16 +3,30 @@
  * @Email: shlll7347@gmail.com
  * @Date:   2018-04-24 22:13:19
  * @Last Modified by:   SHLLL
- * @Last Modified time: 2018-04-29 14:52:02
+ * @Last Modified time: 2018-04-29 21:06:33
  * @License: MIT LICENSE
  */
 
 class AssocwordTable extends BaseTable {
     constructor(content) {
         super(content); // 调用父类的初始化方法
-        this.navTabDom = $('.nav'); // 获取切换的标签DOM
         this.curActiveTab = "freq"; // 设置当前激活的标签页
-        this.curDisplay = this.dataResult.display;
+        this.curDisplay = content.display;
+    }
+
+    initDom() {
+        super.initDom();
+        this.tableRow.css('margin-top', '1em');
+
+        const navTabDom = $('<nav class="nav nav-pills justify-content-center"></nav>');
+        const navTabItem1 = $('<a class="nav-link active"  data-toggle="pill" tab-name="freq" href="javascript:void(0)">频繁项</a>')
+        const navTabItem2 = $('<a class="nav-link"  data-toggle="pill" tab-name="assoc" href="javascript:void(0)">关联规则</a>')
+        navTabDom.css('margin-top', '2em');
+        navTabDom.append(navTabItem1);
+        navTabDom.append(navTabItem2);
+        this.navTabDom = navTabDom;
+
+        this.containDom.prepend(navTabDom);
     }
 
     setTableBody(data, display) {
@@ -26,12 +40,12 @@ class AssocwordTable extends BaseTable {
             // 插入行号
             const th = $("<th scope='row'></th>");
             th.text(data[count].pk);
-            this.tableBody.append(th);
+            tr.append(th);
 
             for (let index = 0; index < display.length; index++) {
                 const node = $("<td></td>");
                 node.text(data[count].fields[display[index]]);
-                this.tableBody.append(node);
+                tr.append(node);
             }
         }
     }
@@ -106,8 +120,11 @@ class AssocwordTable extends BaseTable {
         this.initNavgate();
         // 初始化表格的标题
         this.setTableHead(this.dataResult.title, this.dataResult.width);
-        // 初始化表格内容
-        this.setTableBody(this.dataResult.data, this.curDisplay);
-
+        // 定义ajax回调方法
+        $.getJSON(this.curActiveTab + "/0/" + this.displayCount, data => {
+            // 将JSON字符串转换为JSON对象
+            data = JSON.parse(data);
+            this.setTableBody(data, this.curDisplay);
+        })
     }
 }

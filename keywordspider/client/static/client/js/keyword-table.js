@@ -3,7 +3,7 @@
 * @Email: shlll7347@gmail.com
 * @Date:   2018-04-24 22:13:19
 * @Last Modified by:   SHLLL
-* @Last Modified time: 2018-04-29 14:43:23
+* @Last Modified time: 2018-04-29 20:23:12
 * @License: MIT LICENSE
 */
 
@@ -23,7 +23,7 @@ class KeywordTable extends BaseTable {
             // 插入行号
             const th = $("<th scope='row'></th>");
             th.text(data[count].pk);
-            this.tableBody.append(th);
+            tr.append(th);
 
             // 插入新闻标题超链接
             const title = $("<td></td>");
@@ -31,12 +31,12 @@ class KeywordTable extends BaseTable {
             url.attr("href", data[count].fields.url);
             url.text(data[count].fields.title.substring(0, 10) + "...");
             title.append(url);
-            this.tableBody.append(title);
+            tr.append(title);
 
             // 插入发布日期
             const date = $("<td></td>");
             date.text(data[count].fields.keywords);
-            this.tableBody.append(date);
+            tr.append(date);
         }
     }
 }

@@ -1,3 +1,11 @@
+# -*- coding: utf-8 -*-
+# @Author: SHLLL
+# @Email: shlll7347@gmail.com
+# @Date:   2018-05-06 21:29:56
+# @Last Modified by:   SHLLL
+# @Last Modified time: 2018-05-07 01:17:11
+# @License: MIT LICENSE
+
 from django.core import serializers
 from django.http import JsonResponse
 from django.views.generic import TemplateView, ListView
@@ -6,6 +14,20 @@ from .models import Content, Keyword, Frequent, Confidence
 
 class IndexView(TemplateView):
     template_name = "client/index.html"
+
+    def get_context_data(self, **kwargs):
+        # 将额外的数据添加到上下文数据中
+        context = super().get_context_data(**kwargs)
+        result_len = len(Content.objects.all())
+        keyword_len = len(Keyword.objects.all())
+        confid_len = len(Confidence.objects.all())
+        context['result'] = {"res_len": result_len, "key_len": keyword_len,
+                             "conf_len": confid_len}
+        return context
+
+
+class SpiderControlView(TemplateView):
+    template_name = "client/control.html"
 
 
 class SpiderResultView(ListView):

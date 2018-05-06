@@ -1,4 +1,9 @@
 {% extends "client/base.html" %}
+{% load static %}
+
+{% block csssrc %}
+  <link rel="stylesheet" type="text/css" href="{% static "client/css/index.css" %}">
+{% endblock csssrc %}
 
 {% block nav1 %}
 active
@@ -6,7 +11,7 @@ active
 
 {% block content %}
 <main role="main">
-    <div class="jumbotron">
+    <div class="jumbotron bg-light">
         <div class="container">
           <h1 class="display-4">基于垂直搜索引擎的关联关键词可视化的实现</h1>
           <p>本项目基于Python实现了网页爬虫对特定站点的网页文章内容进行爬取，同时实现了利用TF-IDF和TextRank对爬取的文章进行关键词提取，并使用Apriori算法对关键词进行关联规则分析。最后使用Django框架搭建后端服务器，使用Bootstrap和Jquery等框架搭建前端可视化网页。</p>
@@ -14,27 +19,37 @@ active
     </div>
 
     <div class="container">
-        <!-- Example row of columns -->
-        <div class="row">
-          <div class="col-md-4">
-            <h2>爬取结果</h2>
-            <p>在爬虫结果展示页面，你可以看到使用我们爬虫爬取的链接、标题、发布日期以及爬取的文章等一系列内容。</p>
-            <p><a class="btn btn-secondary" href="{% url 'client:result' %}" role="button">查看更多 &raquo;</a></p>
-          </div>
-          <div class="col-md-4">
-            <h2>关键词</h2>
-            <p>在关键词展示页面，你可以看到使用我们的TF-IDF算法以及TextRank算法对爬取文章进行分词之后的结果。</p>
-            <p><a class="btn btn-secondary" href="#" role="button">查看更多 &raquo;</a></p>
-          </div>
-          <div class="col-md-4">
-            <h2>关联词</h2>
-            <p>在关联词展示页面，你可以看到我们使用Apriori算法进行关联规则分析之后得到的前项和后项，以及对应的支持度和置信度等数据。</p>
-            <p><a class="btn btn-secondary" href="#" role="button">查看更多 &raquo;</a></p>
+      <div class="card-deck">
+        <div class="card text-white bg-info mb-3" style="width: 18rem;">
+          <div class="card-header">当前文章数</div>
+          <div class="card-body circle" id="circle1">
+            <strong>0<i>篇</i></strong>
           </div>
         </div>
 
-        <hr>
+        <div class="card text-white bg-info mb-3">
+          <div class="card-header">当前频繁关键词数</div>
+          <div class="card-body circle" id="circle2">
+            <strong>0<i>个</i></strong>
+          </div>
+        </div>
 
+        <div class="card text-white bg-info mb-3">
+          <div class="card-header">当前关联词数</div>
+          <div class="card-body circle" id="circle3">
+            <strong>0<i>个</i></strong>
+          </div>
+        </div>
+      </div>
     </div>
 </main>
 {% endblock content %}
+
+{% block jssrc %}
+<script type="text/javascript" src="{% static "client/js/circle-progress.js" %}"></script>
+<script type="text/javascript" src="{% static "client/js/index.js" %}"></script>
+<script type="text/javascript">
+    const result = {{ result | safe }};
+    initProcess(result);
+</script>
+{% endblock jssrc %}

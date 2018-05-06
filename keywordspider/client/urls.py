@@ -3,7 +3,7 @@
 # @Email: shlll7347@gmail.com
 # @Date:   2018-04-10 21:32:35
 # @Last Modified by:   SHLLL
-# @Last Modified time: 2018-04-28 20:06:50
+# @Last Modified time: 2018-05-07 01:17:12
 # @License: MIT LICENSE
 
 from django.urls import path
@@ -16,6 +16,7 @@ urlpatterns = [
     path('result/', views.SpiderResultView.as_view(), name='result'),
     path('result/<int:start_count>/<int:end_count>',
          views.spider_result_ajax, name='result_ajax'),
+    path('control/', views.SpiderControlView.as_view(), name='control'),
     path('keyword/', views.KeywordView.as_view(), name='keyword'),
     path('keyword/<int:start_count>/<int:end_count>',
          views.keyword_ajax, name='keyword_ajax'),

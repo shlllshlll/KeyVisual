@@ -1,0 +1,41 @@
+/*
+* @Author: SHLLL
+* @Date:   2018-05-06 20:40:45
+* @Last Modified by:   SHLLL
+* @Last Modified time: 2018-05-06 21:01:32
+*/
+
+
+/* 适配circle进度栏 */
+
+.circle {
+    /*width: 100px;*/
+    /*margin: 6px 6px 20px;*/
+    /*display: inline-block;*/
+    position: relative;
+    text-align: center;
+    /*line-height: 1.2;*/
+}
+
+.circle canvas {
+  text-align: center;
+}
+
+.circle strong {
+    font-size: 30px;
+    line-height: 40px;
+
+    position: absolute;
+    left: 0px;
+    top: 100px;
+
+    width: 100%;
+
+    text-align: center;
+}
+
+.circle strong i {
+    font-style: normal;
+    font-size: 0.6em;
+    font-weight: normal;
+}

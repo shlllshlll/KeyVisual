@@ -5,9 +5,12 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="shortcut icon" href="{% static "client/image/favicon.ico" %}" type="image/x-icon">
     <title>基于垂直搜索引擎的关联关键词可视化的实现</title>
     <link rel="stylesheet" type="text/css" href="{% static "client/css/bootstrap.css" %}">
     <link rel="stylesheet" type="text/css" href="{% static "client/css/base.css" %}">
+    {% block csssrc %}
+    {% endblock csssrc %}
 </head>
 
 <body>
@@ -22,7 +25,7 @@
                     <a href="{% url 'client:index' %}" class="nav-link">主页</a>
                 </li>
                 <li class="nav-item {% block nav2 %}{% endblock nav2 %}">
-                    <a href="#" class="nav-link">爬虫控制</a>
+                    <a href="{% url 'client:control' %}" class="nav-link">爬虫控制</a>
                 </li>
                 <li class="nav-item {% block nav3 %}{% endblock nav3 %}">
                     <a href="{% url 'client:result' %}" class="nav-link">爬取结果</a>

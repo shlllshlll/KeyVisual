@@ -3,7 +3,7 @@
  * @Email: shlll7347@gmail.com
  * @Date:   2018-04-23 18:57:58
  * @Last Modified by:   SHLLL
- * @Last Modified time: 2018-04-29 20:34:14
+ * @Last Modified time: 2018-05-07 16:45:20
  * @License: MIT LICENSE
  */
 /**
@@ -32,7 +32,7 @@ class BaseTable {
     }
 
     initDom() {
-        const containDom = $("div.container"); // 选取container根节点
+        const containDom = $("main.container"); // 选取container根节点
 
         const tableRow = $('<div class="row""></div>');
         const tableCol = $('<div class="col table-striped"></div>');

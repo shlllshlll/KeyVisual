@@ -3,7 +3,7 @@
  * @Email: shlll7347@gmail.com
  * @Date:   2018-05-06 16:24:34
  * @Last Modified by:   SHLLL
- * @Last Modified time: 2018-05-07 00:55:22
+ * @Last Modified time: 2018-05-07 17:13:01
  * @License: MIT LICENSE
  */
 
@@ -43,7 +43,7 @@ function initProcess(result) {
         lineCap: "round",
         value: getRandom(),
         size: 200,
-        fill: "#BA55D3"
+        fill: "#F94FE5"
     });
 
 

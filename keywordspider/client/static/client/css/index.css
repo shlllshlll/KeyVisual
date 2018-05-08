@@ -2,12 +2,21 @@
 * @Author: SHLLL
 * @Date:   2018-05-06 20:40:45
 * @Last Modified by:   SHLLL
-* @Last Modified time: 2018-05-06 21:01:32
+* @Last Modified time: 2018-05-07 15:23:36
 */
 
+.bg-pic {
+    background-image: url("../image/index-bg.jpg");
+    background-size: cover;
+    color: #FFF;
+    text-shadow: 0 2px 2px rgba(0,0,0,0.7);
+}
+
+.bg-pic p {
+    font-size: 125%;
+}
 
 /* 适配circle进度栏 */
-
 .circle {
     /*width: 100px;*/
     /*margin: 6px 6px 20px;*/

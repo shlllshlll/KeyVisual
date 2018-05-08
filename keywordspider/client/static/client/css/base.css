@@ -2,7 +2,7 @@
 * @Author: SHLLL
 * @Date:   2018-04-18 15:11:59
 * @Last Modified by:   SHLLL
-* @Last Modified time: 2018-05-06 20:40:54
+* @Last Modified time: 2018-05-07 17:18:47
 */
 
 
@@ -11,4 +11,27 @@
 body
 {
     padding-top: 3.5rem;
+}
+
+.bg-lightblue
+{
+    border-color: #1995dc;
+    background-color: #2fa4e7;
+}
+
+.card
+{
+    color: #fff;
+    background-color: #7472e4;
+}
+
+.footer
+{
+    bottom: 0;
+
+    margin-top: 40px;
+    padding-top: 20px;
+    padding-bottom: 30px;
+
+    color: #fff;
 }

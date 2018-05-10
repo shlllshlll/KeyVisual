@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block csssrc %}
-  <link rel="stylesheet" type="text/css" href="{% static "client/css/index.css" %}">
+<link rel="stylesheet" type="text/css" href="{% static "client/css/index.css" %}">
 {% endblock csssrc %}
 
 {% block nav1 %}
@@ -19,25 +19,31 @@ active
     </div>
 
     <div class="container">
-      <div class="card-deck">
-        <div class="card mb-3" style="width: 18rem;">
-          <div class="card-header">当前文章数</div>
-          <div class="card-body circle" id="circle1">
-            <strong>0<i>篇</i></strong>
+      <div class="row">
+        <div class="col-sm-4">
+          <div class="card">
+            <div class="card-header">当前文章数</div>
+            <div class="card-body circle" id="circle1">
+              <strong>0<i>篇</i></strong>
+            </div>
           </div>
         </div>
 
-        <div class="card mb-3">
-          <div class="card-header">当前频繁关键词数</div>
-          <div class="card-body circle" id="circle2">
-            <strong>0<i>个</i></strong>
+        <div class="col-sm-4">
+          <div class="card">
+            <div class="card-header">当前频繁关键词数</div>
+            <div class="card-body circle" id="circle2">
+              <strong>0<i>个</i></strong>
+            </div>
           </div>
         </div>
 
-        <div class="card mb-3">
-          <div class="card-header">当前关联词数</div>
-          <div class="card-body circle" id="circle3">
-            <strong>0<i>个</i></strong>
+        <div class="col-sm-4">
+          <div class="card">
+            <div class="card-header">当前关联词数</div>
+            <div class="card-body circle" id="circle3">
+              <strong>0<i>个</i></strong>
+            </div>
           </div>
         </div>
       </div>

@@ -3,13 +3,16 @@
 # @Email: shlll7347@gmail.com
 # @Date:   2018-05-06 21:29:56
 # @Last Modified by:   SHLLL
-# @Last Modified time: 2018-05-07 01:17:11
+# @Last Modified time: 2018-05-12 21:20:13
 # @License: MIT LICENSE
 
+import queue
+from multiprocessing import Queue
 from django.core import serializers
-from django.http import JsonResponse
+from django.http import HttpResponse, JsonResponse
 from django.views.generic import TemplateView, ListView
 from .models import Content, Keyword, Frequent, Confidence
+from . import spidermanage
 
 
 class IndexView(TemplateView):
@@ -28,6 +31,46 @@ class IndexView(TemplateView):
 
 class SpiderControlView(TemplateView):
     template_name = "client/control.html"
+
+    def get_context_data(self, **kwargs):
+        # 将额外的数据添加到上下文数据中
+        context = super().get_context_data(**kwargs)
+        result_len = len(Content.objects.all())
+        keyword_len = len(Keyword.objects.all())
+        confid_len = len(Confidence.objects.all())
+        context['result'] = {"res_len": result_len, "key_len": keyword_len,
+                             "conf_len": confid_len}
+        return context
+
+
+ctr_msg_queue = Queue(1)
+
+
+def spider_control_post(request):
+    global ctr_msg_queue
+    # 判断是否为post请求
+    if request.method == 'POST':
+        # 在子进程中运行爬虫程序
+        spider_runner = spidermanage.RunSpiderInServer(
+            request.POST, ctr_msg_queue)
+        spider_runner.daemon = True
+        spider_runner.start()
+    return HttpResponse()
+
+
+data = {"running": 0, "spider": 0, "keyword": 0, "assoword": 0}
+
+
+def spider_control_status_ajax(request):
+    global ctr_msg_queue
+    global data
+
+    try:
+        data = ctr_msg_queue.get()
+    except queue.Empty:
+        pass
+
+    return JsonResponse(data)
 
 
 class SpiderResultView(ListView):
@@ -86,7 +129,8 @@ class AssocwordView(ListView):
         title = ["#", "关键词", "支持度"]
         width = ["15%", "50%", "35%"]
         length = result_len
-        context['result'] = {"display": display, "title": title, "width": width, "len": length}
+        context['result'] = {"display": display,
+                             "title": title, "width": width, "len": length}
         return context
 
 

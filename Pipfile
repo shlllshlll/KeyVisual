@@ -16,6 +16,7 @@ pymysql = "*"
 django = "*"
 mysqlclient = "*"
 sqlalchemy = "*"
+uwsgi = "*"
 
 [dev-packages]
 ipython = "*"

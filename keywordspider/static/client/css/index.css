@@ -1,0 +1,48 @@
+/*
+* @Author: SHLLL
+* @Date:   2018-05-06 20:40:45
+* @Last Modified by:   SHLLL
+* @Last Modified time: 2018-05-10 16:43:25
+*/
+
+.bg-pic {
+    background-image: url("../image/index-bg.jpg");
+    background-size: cover;
+    color: #FFF;
+    text-shadow: 0 2px 2px rgba(0,0,0,0.7);
+}
+
+.bg-pic p {
+    font-size: 125%;
+}
+
+/* 适配circle进度栏 */
+.circle {
+    position: relative;
+    text-align: center;
+}
+
+.circle canvas {
+  text-align: center;
+}
+
+.circle strong {
+    font-size: 30px;
+    left: 0;
+    line-height: 40px;
+    position: absolute;
+    text-align: center;
+    top: 100px;
+    width: 100%;
+}
+
+.circle strong i {
+    font-size: 0.6em;
+    font-style: normal;
+    font-weight: normal;
+}
+
+.col-sm-4 {
+    padding-bottom: 15px;
+    padding-top: 15px;
+}

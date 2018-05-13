@@ -3,10 +3,9 @@
 # @Email:  shlll7347@gmail.com
 # @Date:   2018-03-20 22:45:19
 # @Last Modified by:   SHLLL
-# @Last Modified time: 2018-05-12 22:03:56
+# @Last Modified time: 2018-05-13 17:03:06
 # @License: MIT LICENSE
 
-import time
 import logging
 from .instances import *
 from .utils import *
@@ -32,7 +31,6 @@ class SpiderSingleThread(object):
         loop_count = 1
         news_count = 1
         while(news_count <= self._max_count):
-            time.sleep(0.2)
             try:
                 url, content = self._fetcher.working()
             except IndexError:
@@ -40,10 +38,8 @@ class SpiderSingleThread(object):
                 return
             except Exception:
                 continue
-            time.sleep(0.2)
             item = self._parser.working(url, content)
             self._msg_queue.put('spider', news_count / self._max_count)
-            time.sleep(0.2)
             if item:
                 logging.info("loop:%s,url:%s,title:%s",
                              loop_count, url, item["title"])

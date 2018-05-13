@@ -3,7 +3,7 @@
 # @Email: shlll7347@gmail.com
 # @Date:   2018-05-06 21:29:56
 # @Last Modified by:   SHLLL
-# @Last Modified time: 2018-05-12 21:20:13
+# @Last Modified time: 2018-05-13 17:06:50
 # @License: MIT LICENSE
 
 import queue
@@ -44,10 +44,16 @@ class SpiderControlView(TemplateView):
 
 
 ctr_msg_queue = Queue(1)
-
+spider_runner = None
 
 def spider_control_post(request):
     global ctr_msg_queue
+    global spider_runner
+
+    # 首先检查上一次的进程是否存活
+    if spider_runner and spider_runner.is_alive():
+        spider_runner.terminate()
+
     # 判断是否为post请求
     if request.method == 'POST':
         # 在子进程中运行爬虫程序
@@ -66,7 +72,7 @@ def spider_control_status_ajax(request):
     global data
 
     try:
-        data = ctr_msg_queue.get()
+        data = ctr_msg_queue.get_nowait()
     except queue.Empty:
         pass
 

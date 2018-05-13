@@ -22,15 +22,16 @@ class _MysqlBase(object):
         self._close_mysql()
 
     def close(self):
-        self._close_mysql()
+        pass
+        # self._close_mysql()
 
     @classmethod
     def _connect_mysql(cls):
         if _MysqlBase._connection is None:
             _MysqlBase._connection = pymysql.connect(
                 host='localhost',
-                user='root',
-                password='123456',
+                user='shlll',
+                password='shihaolei123',
                 db='visualize',
                 charset='utf8',
             )
@@ -84,13 +85,14 @@ class _PandasMysqlBase(object):
         self._close_mysql()
 
     def close(self):
-        self._close_mysql()
+        pass
+        # self._close_mysql()
 
     @classmethod
     def _connect_mysql(cls):
         if _PandasMysqlBase._connection is None:
             engine = create_engine(
-                'mysql://root:123456@localhost:3306/visualize?charset=utf8')
+                'mysql://shlll:shihaolei123@localhost:3306/visualize?charset=utf8')
             _PandasMysqlBase._connection = engine.connect()
 
     @classmethod

@@ -3,7 +3,7 @@
 * @Email: shlll7347@gmail.com
 * @Date:   2018-04-24 22:13:19
 * @Last Modified by:   SHLLL
-* @Last Modified time: 2018-05-22 21:28:10
+* @Last Modified time: 2018-05-22 23:28:50
 * @License: MIT LICENSE
 */
 
@@ -39,7 +39,8 @@ class KeywordTable extends BaseTable {
             for (let keyword of keywordAry) {
                 const keywordBadge = $("<span class='badge badge-primary'></span>");
                 keywordBadge.text(keyword);
-                keywordBadge.css("margin-left", "0.5rem");
+                keywordBadge.css({"margin-left": "0.5rem",
+                                  "font-size": "0.95rem"});
                 date.append(keywordBadge);
             }
             tr.append(date);

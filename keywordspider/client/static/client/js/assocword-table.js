@@ -3,7 +3,7 @@
  * @Email: shlll7347@gmail.com
  * @Date:   2018-04-24 22:13:19
  * @Last Modified by:   SHLLL
- * @Last Modified time: 2018-05-22 21:53:55
+ * @Last Modified time: 2018-05-22 23:46:04
  * @License: MIT LICENSE
  */
 
@@ -45,20 +45,20 @@ class AssocwordTable extends BaseTable {
             for (let index = 0; index < display.length; index++) {
                 const node = $("<td></td>");
                 let content = data[count].fields[display[index]];
-                if (content === "string"){
+                if (typeof(content) === "string"){
                     const keywordAry = data[count].fields[display[index]].split('/'); // 分割字符串
                     for (let keyword of keywordAry) {
                         const keywordBadge = $("<span class='badge badge-primary'></span>");
                         keywordBadge.text(keyword);
                         keywordBadge.css({"margin-left": "0.5rem",
-                                          "font-size": "1.0rem"});
+                                          "font-size": "0.95rem"});
                         node.append(keywordBadge);
                     }
                 } else {
-                    if (content === "number") {
+                    if (typeof(content) === "number") {
                         content = content.toFixed(3);  // 保留两位小数
                     }
-                    node.text(data[count].fields[display[index]]);
+                    node.text(content);
                 }
                 tr.append(node);
             }
@@ -94,34 +94,37 @@ class AssocwordTable extends BaseTable {
     initNavgate() {
         // 根据页码数创建页码
         this.navDom.empty();
-        this.navList.length = 0;
-        for (let count = 1; count <= this.pageCount; count++) {
-            const a = $('<a class="page-link" href="javascript:void(0)"></a>');
-            a.text(count);
-            const li = $('<li class="page-item"></li>');
-            li.append(a);
-            this.navDom.append(li);
+        super.initNavgate(this.curActiveTab + "/", this.setTableJson);
 
-            // 为当前this创建别名以供匿名函数使用
-            // 定义click回调方法
-            li.click(e => {
-                const currentDom = e.currentTarget;
-                // 获取当前访问的是第几页
-                const pageNum = parseInt($(currentDom).text());
-                const startCount = this.displayCount * (pageNum - 1);
-                const endCount = this.displayCount * pageNum;
 
-                // 更改页码显示
-                this.navDom.children().removeClass("active");
-                $(currentDom).addClass("active");
+        // this.navList.length = 0;
+        // for (let count = 1; count <= this.pageCount; count++) {
+        //     const a = $('<a class="page-link" href="javascript:void(0)"></a>');
+        //     a.text(count);
+        //     const li = $('<li class="page-item"></li>');
+        //     li.append(a);
+        //     this.navDom.append(li);
 
-                // 向django服务器发送ajax请求
-                this.setTableJson(this.curActiveTab + "/" + startCount + "/" + endCount);
-            });
-            this.navList.push(li);
-        }
+        //     // 为当前this创建别名以供匿名函数使用
+        //     // 定义click回调方法
+        //     li.click(e => {
+        //         const currentDom = e.currentTarget;
+        //         // 获取当前访问的是第几页
+        //         const pageNum = parseInt($(currentDom).text());
+        //         const startCount = this.displayCount * (pageNum - 1);
+        //         const endCount = this.displayCount * pageNum;
 
-        this.navList[0].addClass("active");
+        //         // 更改页码显示
+        //         this.navDom.children().removeClass("active");
+        //         $(currentDom).addClass("active");
+
+        //         // 向django服务器发送ajax请求
+        //         this.setTableJson(this.curActiveTab + "/" + startCount + "/" + endCount);
+        //     });
+        //     this.navList.push(li);
+        // }
+
+        // this.navList[0].addClass("active");
     }
 
     init() {

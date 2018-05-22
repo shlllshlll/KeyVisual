@@ -5,6 +5,7 @@
  * Copyright 2014-2016, Eugene Simakin
  * Released under Apache 2.0 license
  * http://apache.org/licenses/LICENSE-2.0.html
+ * Modefied by: SHLLL
  */
 (function ($, window, document, undefined) {
 
@@ -272,7 +273,8 @@
         var data = $this.data('twbs-pagination');
         var options = typeof option === 'object' ? option : {};
 
-        if (!data) $this.data('twbs-pagination', (data = new TwbsPagination(this, options) ));
+        // if (!data) $this.data('twbs-pagination', (data = new TwbsPagination(this, options) ));
+        $this.data('twbs-pagination', (data = new TwbsPagination(this, options) ));
         if (typeof option === 'string') methodReturn = data[ option ].apply(data, args);
 
         return ( methodReturn === undefined ) ? $this : methodReturn;

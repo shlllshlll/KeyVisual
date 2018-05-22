@@ -3,13 +3,17 @@
 # @Email: shlll7347@gmail.com
 # @Date:   2018-04-10 15:01:37
 # @Last Modified by:   SHLLL
-# @Last Modified time: 2018-05-13 00:51:13
+# @Last Modified time: 2018-05-23 07:38:54
 # @License: MIT LICENSE
 
 import csv
 import pandas as pd
+import os
 
-base_csv_dir = "/home/shlll/project/keyvisual/"
+
+base_csv_dir = os.getcwd() + '/'
+
+
 class CsvWriter(object):
     """The csv data writer class.
 

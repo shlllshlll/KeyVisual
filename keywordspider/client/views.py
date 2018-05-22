@@ -3,7 +3,7 @@
 # @Email: shlll7347@gmail.com
 # @Date:   2018-05-06 21:29:56
 # @Last Modified by:   SHLLL
-# @Last Modified time: 2018-05-13 17:06:50
+# @Last Modified time: 2018-05-22 15:50:05
 # @License: MIT LICENSE
 
 import queue
@@ -46,9 +46,9 @@ class SpiderControlView(TemplateView):
 ctr_msg_queue = Queue(1)
 spider_runner = None
 
+
 def spider_control_post(request):
-    global ctr_msg_queue
-    global spider_runner
+    global ctr_msg_queue, data, spider_runner
 
     # 首先检查上一次的进程是否存活
     if spider_runner and spider_runner.is_alive():
@@ -57,6 +57,7 @@ def spider_control_post(request):
     # 判断是否为post请求
     if request.method == 'POST':
         # 在子进程中运行爬虫程序
+        data = {"running": 0, "spider": 0, "keyword": 0, "assoword": 0}
         spider_runner = spidermanage.RunSpiderInServer(
             request.POST, ctr_msg_queue)
         spider_runner.daemon = True
@@ -68,14 +69,27 @@ data = {"running": 0, "spider": 0, "keyword": 0, "assoword": 0}
 
 
 def spider_control_status_ajax(request):
-    global ctr_msg_queue
-    global data
+    global ctr_msg_queue, data
 
     try:
         data = ctr_msg_queue.get_nowait()
     except queue.Empty:
         pass
 
+    # 首先检查上一次的进程是否存活
+    if spider_runner and not spider_runner.is_alive():
+        data['running'] = 2
+
+    return JsonResponse(data)
+
+
+def spider_control_result_ajax(request):
+    # 将额外的数据添加到上下文数据中
+    result_len = len(Content.objects.all())
+    keyword_len = len(Keyword.objects.all())
+    confid_len = len(Confidence.objects.all())
+    data = {"res_len": result_len, "key_len": keyword_len,
+            "conf_len": confid_len}
     return JsonResponse(data)
 
 

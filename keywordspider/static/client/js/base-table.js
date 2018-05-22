@@ -3,7 +3,7 @@
  * @Email: shlll7347@gmail.com
  * @Date:   2018-04-23 18:57:58
  * @Last Modified by:   SHLLL
- * @Last Modified time: 2018-05-07 16:45:20
+ * @Last Modified time: 2018-05-22 21:17:46
  * @License: MIT LICENSE
  */
 /**
@@ -38,7 +38,7 @@ class BaseTable {
         const tableCol = $('<div class="col table-striped"></div>');
         const tableDom = $('<table class="table table-hover" id="result-table"></table>');
         const tableHead = $('<thead></thead>');
-        const tableHeadTr = $('<tr class="table-info"></tr>')
+        const tableHeadTr = $('<tr class="table-info"></tr>');
         const tableBody = $('<tbody></tbody>');
         tableRow.css('margin-top', '2em');
         tableHead.append(tableHeadTr);
@@ -89,22 +89,22 @@ class BaseTable {
                     // 将JSON字符串转换为JSON对象
                     data = JSON.parse(data);
                     this.setTableBody(data);
-                })
+                });
             });
             this.navList.push(li);
         }
 
-        this.navList[0].addClass("active")
+        this.navList[0].addClass("active");
     }
 
     setTableHead(tableName, tableWidth = null) {
-        this.tableHead.empty() // 首先删除所有的子元素
+        this.tableHead.empty(); // 首先删除所有的子元素
 
         for (let count in tableName) {
             const th = $("<th scope='col'></th>");
             th.text(tableName[count]);
             if (tableWidth) {
-                th.css("width", tableWidth[count])
+                th.css("width", tableWidth[count]);
             }
             this.tableHead.append(th);
         }
@@ -122,7 +122,7 @@ class BaseTable {
             // 将JSON字符串转换为JSON对象
             data = JSON.parse(data);
             this.setTableBody(data);
-        })
+        });
     }
 
 }

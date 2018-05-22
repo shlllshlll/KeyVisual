@@ -3,7 +3,7 @@
 # @Email: shlll7347@gmail.com
 # @Date:   2018-04-09 22:14:22
 # @Last Modified by:   SHLLL
-# @Last Modified time: 2018-05-01 21:08:12
+# @Last Modified time: 2018-05-22 16:47:46
 # @License: MIT LICENSE
 
 import os
@@ -54,7 +54,7 @@ def working(run_server=True, run_spider=True, run_keyword=True,
             asso_reader = spider.PandasMysqlReader("client_keyword")
         myassorules = assorules.Assokeyword(
             asso_reader, asso_fre_writer, asso_con_writer)
-        myassorules.working(min_support=0.08, min_confidence=0.5,
+        myassorules.working(min_support=0.03, min_confidence=0.5,
                             find_rules=True, max_len=4)
     if run_server:
         # 这里在运行完成后关闭服务器

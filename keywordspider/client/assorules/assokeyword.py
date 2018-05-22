@@ -3,7 +3,7 @@
 # @Email: shlll7347@gmail.com
 # @Date:   2018-03-30 10:28:00
 # @Last Modified by:   SHLLL
-# @Last Modified time: 2018-05-12 16:58:02
+# @Last Modified time: 2018-05-22 17:43:04
 # @License: MIT LICENSE
 
 import logging
@@ -13,7 +13,7 @@ from . import apriori as asr
 
 class Assokeyword(object):
 
-    def __init__(self, datareader, freq_datawriter, conf_datawriter, msg_queue):
+    def __init__(self, datareader, freq_datawriter, conf_datawriter, msg_queue=None):
         news_item = datareader.working()     # 从csv文件中读取数据
         keywords = list(map(lambda x: x.split(
             '/'), news_item["keywords"]))   # 从数据中提取关键词数据
@@ -27,8 +27,10 @@ class Assokeyword(object):
 
     def working(self, min_support=0.03, min_confidence=0.1,
                 find_rules=True, max_len=4):
+        print(min_support, min_confidence)
         logging.info("Start finding associate keywords...")
-        self._msg_queue.put("assoword", 1)
+        if self._msg_queue:
+            self._msg_queue.put("assoword", 1)
         # if not self._key_df:
         #     raise ValueError(
         #         "Please use read_dat() to build a keyword dataframe.")
@@ -46,7 +48,8 @@ class Assokeyword(object):
             logging.info("%s", con_df)
             self._conf_datawriter.working(con_df)
         logging.info("End finding associate keywords...")
-        self._msg_queue.put("assoword", 2)
+        if self._msg_queue:
+            self._msg_queue.put("assoword", 2)
         self._datareader.close()
         self._freq_datawriter.close()
         self._conf_datawriter.close()

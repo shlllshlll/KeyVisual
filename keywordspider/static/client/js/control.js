@@ -3,7 +3,7 @@
 * @Email: shlll7347@gmail.com
 * @Date:   2018-05-09 17:49:05
 * @Last Modified by:   SHLLL
-* @Last Modified time: 2018-05-12 22:12:25
+* @Last Modified time: 2018-05-22 21:08:09
 * @License: MIT LICENSE
 */
 "use strict";
@@ -111,9 +111,15 @@ function init(result) {
         } else if(!postData.runSpider && !postData.runKeyword && !postData.runAssoword) {
             addAlert("请至少选择一个功能组件");
             return;
+        } else if(postData.minSupp <= 0 || postData.minConf <= 0) {
+            addAlert("请确保最小支持度和置信度的值大于零");
+            return;
         } else {
             removeAltert();
         }
+
+        $("#ctr-btn").text("运行中  ");
+        $("#ctr-btn").attr("disabled", true);
 
         $.post("post/", postData, ()=>{
             const spiderProgress = $("#spiderProgress");
@@ -131,9 +137,14 @@ function init(result) {
                     console.log(data);
                     if(data.running !== 2){
                         setTimeout(fresh, 500);
+                    } else {
+                        $("#ctr-btn").text("开始运行");
+                        $("#ctr-btn").attr("disabled", false);
+                        $("#successModal").modal('show');
+                        $.getJSON("result/", result=>initProcess(result));
                     }
                 });
             })();
-        })
-    })
+        });
+    });
 }

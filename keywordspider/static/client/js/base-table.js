@@ -3,7 +3,7 @@
  * @Email: shlll7347@gmail.com
  * @Date:   2018-04-23 18:57:58
  * @Last Modified by:   SHLLL
- * @Last Modified time: 2018-05-22 22:57:34
+ * @Last Modified time: 2018-05-22 23:50:32
  * @License: MIT LICENSE
  */
 /**
@@ -21,14 +21,7 @@ class BaseTable {
         this.displayCount = 15;
         this.pageCount = Math.ceil(content.len / this.displayCount);
 
-        // this.navDom = $(".pagination");
-        this.navList = [];
-
         this.initDom();
-
-        // const resultTable = $("#result-table");
-        // this.tableHead = resultTable.find("thead>tr"); //选取表格头
-        // this.tableBody = resultTable.find("tbody");
     }
 
     initDom() {
@@ -50,12 +43,7 @@ class BaseTable {
         this.tableBody = tableBody;
         this.tableRow = tableRow;
 
-        // const navContain = $('<nav aria-label="Table navigation"></nav>');
-        // const navDom = $('<ul class="pagination justify-content-end"></ul>');
-        // navContain.append(navDom);
-        // this.navDom = navDom;
-
-        const navContain = $('<div class="justify-content-end" id="pagination"></div>');
+        const navContain = $('<div id="pagination"></div>');
         this.navDom = navContain;
 
         containDom.append(tableRow);
@@ -63,58 +51,32 @@ class BaseTable {
         this.containDom = containDom;
     }
 
-    initNavgate() {
-        // 根据页码数创建页码
-        // for (let count = 1; count <= this.pageCount; count++) {
-        //     const a = $('<a class="page-link" href="javascript:void(0)"></a>');
-        //     a.text(count);
-        //     const li = $('<li class="page-item"></li>');
-        //     li.append(a);
-        //     this.navDom.append(li);
-
-        //     // 为当前this创建别名以供匿名函数使用
-        //     // 定义click回调方法
-        //     li.click(e => {
-        //         const currentDom = e.currentTarget;
-        //         // 获取当前访问的是第几页
-        //         const pageNum = parseInt($(currentDom).text());
-        //         const startCount = this.displayCount * (pageNum - 1);
-        //         const endCount = this.displayCount * pageNum;
-
-        //         // 更改页码显示
-        //         this.navDom.children().removeClass("active");
-        //         $(currentDom).addClass("active");
-
-        //         // 向django服务器发送ajax请求
-        //         const url = startCount + "/" + endCount;
-        //         // 定义ajax回调方法
-        //         $.getJSON(url, data => {
-        //             // 将JSON字符串转换为JSON对象
-        //             data = JSON.parse(data);
-        //             this.setTableBody(data);
-        //         });
-        //     });
-        //     this.navList.push(li);
-        // }
-
-        // this.navList[0].addClass("active");
-
+    initNavgate(baseurl='', getJsonFunc = null) {
         $('#pagination').twbsPagination({
             totalPages: this.pageCount,
             visiblePages: 5,
-            onPageClick: function (event, page) {
-                console.log(page);
+            onPageClick: (event, page) => {
                 const startCount = this.displayCount * (page - 1);
                 const endCount = this.displayCount * page;
                 // 向django服务器发送ajax请求
-                const url = startCount + "/" + endCount;
-                // 定义ajax回调方法
-                $.getJSON(url, data => {
-                    // 将JSON字符串转换为JSON对象
-                    data = JSON.parse(data);
-                    this.setTableBody(data);
-                });
-            }
+                const url = baseurl + startCount + "/" + endCount;
+
+                if(getJsonFunc) {
+                    getJsonFunc.call(this, url);
+                } else {
+                    // 定义ajax回调方法
+                    $.getJSON(url, data => {
+                        // 将JSON字符串转换为JSON对象
+                        data = JSON.parse(data);
+                        this.setTableBody(data);
+                    });
+                }
+            },
+            paginationClass: 'pagination justify-content-end',
+            first: '首页',
+            prev: '前一页',
+            next: '下一页',
+            last: '尾页',
         });
     }
 

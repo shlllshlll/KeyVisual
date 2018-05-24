@@ -3,7 +3,7 @@
 * @Email: shlll7347@gmail.com
 * @Date:   2018-05-09 17:49:05
 * @Last Modified by:   SHLLL
-* @Last Modified time: 2018-05-22 21:08:09
+* @Last Modified time: 2018-05-24 01:45:50
 * @License: MIT LICENSE
 */
 "use strict";
@@ -105,6 +105,7 @@ function init(result) {
         };
 
         // 检查表单中的数据是否正确
+        console.log(postData.minSupp, postData.minConf);
         if(!postData.saveMethod) {
             addAlert("请至少选择一个数据存储方式");
             return;

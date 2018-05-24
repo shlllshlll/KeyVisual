@@ -3,11 +3,15 @@
 # @Email: shlll7347@gmail.com
 # @Date:   2018-04-10 21:32:35
 # @Last Modified by:   SHLLL
-# @Last Modified time: 2018-05-22 15:40:37
+# @Last Modified time: 2018-05-23 22:47:31
 # @License: MIT LICENSE
 
 from django.urls import path
 from . import views
+
+# Add for uwsgi static files support.
+from django.conf import settings
+from django.conf.urls.static import static
 
 
 app_name = "client"
@@ -28,4 +32,4 @@ urlpatterns = [
          views.assocword_len_ajax, name='assocword_len_ajax'),
     path('assocword/<str:cur_tab>/<int:start_count>/<int:end_count>',
          views.assocword_ajax, name='assocword_ajax')
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) # For uwsgi static file.

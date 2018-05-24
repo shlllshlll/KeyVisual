@@ -134,7 +134,8 @@
                 value = Math.round(value / step) * step;
                 value = Math.min(Math.max(value + step, min), max);
                 $input.val(numberFormat.format(value));
-                $original.val(Math.round(value * Math.pow(10, decimals)) / Math.pow(10, decimals));
+                $original.val(numberFormat.format(value));
+                // $original.val(Math.round(value * Math.pow(10, decimals)) / Math.pow(10, decimals));
             }
 
             function resetTimer() {

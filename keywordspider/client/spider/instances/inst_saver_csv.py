@@ -3,7 +3,7 @@
 # @Email: shlll7347@gmail.com
 # @Date:   2018-04-10 15:01:37
 # @Last Modified by:   SHLLL
-# @Last Modified time: 2018-05-23 07:38:54
+# @Last Modified time: 2018-05-28 17:28:17
 # @License: MIT LICENSE
 
 import csv
@@ -11,7 +11,8 @@ import pandas as pd
 import os
 
 
-base_csv_dir = os.getcwd() + '/'
+base_csv_dir = os.path.abspath(os.path.join(os.path.realpath(__file__), "../../../../..")) + '/'
+print(base_csv_dir)
 
 
 class CsvWriter(object):

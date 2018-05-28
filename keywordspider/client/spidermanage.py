@@ -3,25 +3,21 @@
 # @Email: shlll7347@gmail.com
 # @Date:   2018-05-10 19:54:19
 # @Last Modified by:   SHLLL
-# @Last Modified time: 2018-05-24 17:07:45
+# @Last Modified time: 2018-05-28 16:36:50
 # @License: MIT LICENSE
 
 import queue
 import logging
-from multiprocessing import Process
+from multiprocessing import Queue, Process
+import threading
 from . import spider
 from .mykeyword import Keyword
 from . import assorules
 
 
-class RunSpiderInServer(Process):
+class _RunsoiderOption(object):
 
-    def __init__(self, option, queue):
-        # 调用父类的初始化方法
-        super().__init__()
-
-        self._queue = QueuePutter(queue)
-
+    def __init__(self, option):
         # 设置log的记录格式
         logging.basicConfig(level=logging.INFO,
                             format="%(filename)s[line:%(lineno)d]"
@@ -84,7 +80,60 @@ class RunSpiderInServer(Process):
         self._queue.put("running", 2)
 
 
-class QueuePutter(object):
+class SpiderQueueInThread(object):
+
+    def __init__(self):
+        self.data = {"running": 0, "spider": 0, "keyword": 0, "assoword": 0}
+
+    def put(self, key, value):
+        if key in self.data.keys():
+            if isinstance(value, float):
+                value = round(value, 2)
+            self.data[key] = value
+
+    def get(self):
+        return self.data
+
+    def emptyData(self):
+        for item in self.data:
+            self.data[item] = 0
+
+    def setData(self, item, num):
+        self.data[item] = num
+
+    def getQueue(self):
+        return self
+
+
+class RunSpiderInThread(_RunsoiderOption, threading.Thread):
+
+    def __init__(self, option, queue):
+        # 调用_RunsoiderOption类初始化方法
+        super().__init__(option)
+        # 调用Thread类初始化方法
+        super(_RunsoiderOption, self).__init__()
+
+        self._queue = queue
+
+    def run(self):
+        super().run()
+
+
+class RunSpiderInProcess(_RunsoiderOption, Process):
+
+    def __init__(self, option, queue):
+        # 调用_RunsoiderOption类初始化方法
+        super().__init__(option)
+        # 调用Process类的初始化方法
+        super(_RunsoiderOption, self).__init__()
+
+        self._queue = QueuePutterInProcess(queue)
+
+    def run(self):
+        super().run()
+
+
+class QueuePutterInProcess(object):
 
     def __init__(self, queue):
         self._queue = queue
@@ -103,3 +152,27 @@ class QueuePutter(object):
             self._queue.put_nowait(self._data)
         except queue.Full:
             pass
+
+
+class QueueGetterInProcess(object):
+
+    def __init__(self):
+        self.queue = Queue(1)
+        self.data = {"running": 0, "spider": 0, "keyword": 0, "assoword": 0}
+
+    def emptyData(self):
+        for item in self.data:
+            self.data[item] = 0
+
+    def setData(self, item, num):
+        self.data[item] = num
+
+    def get(self):
+        try:
+            self.data = self.queue.get_nowait()
+        except queue.Empty:
+            pass
+        return self.data
+
+    def getQueue(self):
+        return self.queue

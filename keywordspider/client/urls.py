@@ -3,7 +3,7 @@
 # @Email: shlll7347@gmail.com
 # @Date:   2018-04-10 21:32:35
 # @Last Modified by:   SHLLL
-# @Last Modified time: 2018-05-23 22:47:31
+# @Last Modified time: 2018-05-28 17:22:12
 # @License: MIT LICENSE
 
 from django.urls import path

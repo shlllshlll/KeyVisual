@@ -3,11 +3,9 @@
 # @Email: shlll7347@gmail.com
 # @Date:   2018-05-06 21:29:56
 # @Last Modified by:   SHLLL
-# @Last Modified time: 2018-05-24 16:22:20
+# @Last Modified time: 2018-05-28 16:39:26
 # @License: MIT LICENSE
 
-import queue
-from multiprocessing import Queue
 from django.core import serializers
 from django.http import HttpResponse, JsonResponse
 from django.views.generic import TemplateView, ListView
@@ -43,12 +41,19 @@ class SpiderControlView(TemplateView):
         return context
 
 
-ctr_msg_queue = Queue(1)
+# Process; Thread
+option = {"SpiderRunMethod": "Thread"}
+if option["SpiderRunMethod"] == "Process":
+    ctr_msg_queue = spidermanage.QueueGetterInProcess()
+    run_spider_manager = spidermanage.RunSpiderInProcess
+else:
+    ctr_msg_queue = spidermanage.SpiderQueueInThread()
+    run_spider_manager = spidermanage.RunSpiderInThread
 spider_runner = None
 
 
 def spider_control_post(request):
-    global ctr_msg_queue, data, spider_runner
+    global ctr_msg_queue, spider_runner
 
     # 首先检查上一次的进程是否存活
     if spider_runner and spider_runner.is_alive():
@@ -57,28 +62,22 @@ def spider_control_post(request):
     # 判断是否为post请求
     if request.method == 'POST':
         # 在子进程中运行爬虫程序
-        data = {"running": 0, "spider": 0, "keyword": 0, "assoword": 0}
-        spider_runner = spidermanage.RunSpiderInServer(
-            request.POST, ctr_msg_queue)
+        ctr_msg_queue.emptyData()
+        spider_runner = run_spider_manager(
+            request.POST, ctr_msg_queue.getQueue())
         spider_runner.daemon = True
         spider_runner.start()
     return HttpResponse()
 
 
-data = {"running": 0, "spider": 0, "keyword": 0, "assoword": 0}
-
-
 def spider_control_status_ajax(request):
-    global ctr_msg_queue, data
+    global ctr_msg_queue
 
-    try:
-        data = ctr_msg_queue.get_nowait()
-    except queue.Empty:
-        pass
+    data = ctr_msg_queue.get()
 
     # 首先检查上一次的进程是否存活
     if spider_runner and not spider_runner.is_alive():
-        data['running'] = 2
+        ctr_msg_queue.setData('running', 2)
 
     return JsonResponse(data)
 
